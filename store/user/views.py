@@ -93,3 +93,5 @@ def logout_view(request):
         resp.delete_cookie('uid')
 
     return resp
+
+# 加了一行代码  明天试试能不能下载
