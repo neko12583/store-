@@ -95,3 +95,5 @@ def logout_view(request):
     return resp
 
 # 加了一行代码  明天试试能不能下载
+def test():
+    pass
