@@ -4,16 +4,11 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from .models import UserAccount
 
-# Create your views here.
-
-# 登录
-def login(request):
-    return None
 
 # 注册
 def register(request):
     if request.method == "GET":
-        return render(request,'user/register.html')
+        return render(request, 'user/register.html')
     elif request.method == "POST":
         username = request.POST['username']
         password_1 = request.POST['password_1']
@@ -37,3 +32,64 @@ def register(request):
             print('create error is %s' % e)
             return HttpResponse('该用户已经被注册')
         return HttpResponse("注册成功")
+
+
+# 登录
+def login_view(request):
+    if request.method == "GET":
+        # 检查session判断是否已登录，这个'username'和"uid"是下面生成的，是字典里的键，只是字符串
+        if 'username' in request.session and "uid" in request.session:
+            return HttpResponse('您已登录!')
+        # 检查cookies　判断是否已登录  这个get里面的参数'username'和"uid"是下面生成的，是字典里的键，只是字符串
+        username = request.COOKIES.get('username')
+        uid = request.COOKIES.get('uid')
+        if username and uid:  # 如果username和uid　不为空，说明获取到了  则更新一下session里面的username和uid
+            # 　这里记住session回血一下
+            # 存进django_session表里面两条数据{'username'：username}和{'uid'uid}，但是键和值都分别是长乱码
+            request.session['username'] = username
+            request.session['uid'] = uid
+            return HttpResponse("你已经登录")
+        return render(request, 'user/login.html')
+    elif request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        try:
+            old_user = UserAccount.objects.get(username=username)  # 使用get没获取到　则会报错
+        except Exception as e:
+            print("login get error is %s" % e)
+            return HttpResponse("用户名或密码错误")
+
+        md5 = hashlib.md5()
+        md5.update(password.encode())
+        password_h = md5.hexdigest()
+        if password_h != old_user.password:
+            return HttpResponse("用户名或密码错误")
+        resp = HttpResponse('登录成功')
+
+        # 在session保存登录状态
+        request.session['uid'] = old_user.id
+        request.session['username'] = old_user.username
+
+        # 根据用户的选择保存登录状态,是否勾选记住用户名
+        if 'remember' in request.POST:  # 用户勾选了记住用户名点提交，提交过来的数据里才会有{remember:on}
+            resp.set_cookie("uid", old_user.id, 3600 * 24 * 7)
+            resp.set_cookie("username", old_user.username, 3600 * 24 * 7)
+        return resp
+
+
+# 注销
+def logout_view(request):
+    # 删除session
+    if 'username' in request.session:
+        del request.session['username']
+    if 'uid' in request.session:
+        del request.session['uid']
+
+    # 删除cookies
+    resp = HttpResponse("已注销")
+    if 'username' in request.COOKIES:
+        resp.delete_cookie('username')
+    if 'uid' in request.COOKIES:
+        resp.delete_cookie('uid')
+
+    return resp

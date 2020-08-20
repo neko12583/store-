@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>账号注册</title>
+    <title>账号登录</title>
     <style>
         #user_id1{
             width: 200px;
@@ -29,7 +29,7 @@
 
         }
         .user_h1{
-            
+
             display: inline-block;
             cursor: pointer;
             margin-top: 5px;
@@ -48,21 +48,34 @@
             padding: 0;
             margin: 0;
         }
-  
+        .user_a1{
+            font-size: 10px;
+            margin-left: 20px;
+
+        }
+        .user_a2{
+            font-size: 10px;
+            float: right;
+            margin-right: 20px;
+        }
+
     </style>
 </head>
 <body>
     <div id="user_id1">
-        <form method="post" action="/user/register">
-            <div id="user_id2">  
-                <h3 id="user_id3" class="user_h1"></h3><h3 id="user_id4" class="user_h1">账号注册</h3>
+        <form method="post" action="/user/login">
+            <div id="user_id2">
+                <h3 id="user_id3" class="user_h1"></h3><h3 id="user_id4" class="user_h1">账号登录</h3>
             </div>
-            
+
             <hr>
             <li><input type="text" placeholder="请输入用户名" name="username"></li>
-            <li><input type="text" placeholder="请输入密码" name="password_1"></li>
-            <li><input type="text" placeholder="请再次输入密码" name="password_2"></li>
-            <p style="text-align: center"><input class="user_p1" type="submit" value="注册"></p>
+            <li><input type="text" placeholder="请输入登录密码" name="password"></li>
+            <p style=" font-size: 10px;">
+                记住用户<input type="checkbox" name="btn1">
+                <a style="text-decoration:none" class="user_a2" href="/user/register">注册新用户</a> 
+            </p>
+            <p style="text-align: center"><input class="user_p1" type="submit" value="登录"></p>
         </form>
     </div>
 
