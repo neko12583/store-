@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户注册</title>
+    <style>
+        #user_id1{
+            width: 200px;
+            height: 180px;
+            border: 1px solid;
+            margin: 0 auto;
+            margin-top: 50px;
+        }
+        h3{
+            margin: 0;
+            padding: 0;
+        }
+        li{
+            margin-left: 10px;
+        }
+        .user_p1{
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        .user_h1{
+            display: inline-block;
+            cursor: pointer;
+        }
+        #user_id2{
+            text-align: center;
+        }
+        #user_id3:hover{
+                
+        }
+    </style>
+</head>
+<body>
+    <div id="user_id1">
+        <form method="post" action="/user/register">
+            <div id="user_id2">  
+                <h3 id="user_id3" class="user_h1">账号登录</h3> |<h3 id="user_id4" class="user_h1">账号注册</h3>
+            </div>
+            
+            <hr>
+            <li><input type="text" placeholder="请输入用户名" name="username"></li>
+            <li><input type="text" placeholder="请输入密码" name="password_1"></li>
+            <li><input type="text" placeholder="请再次输入密码" name="password_2"></li>
+            <p><input class="user_p1" type="submit" value="注册"></p>
+        </form>
+    </div>
+
+</body>
+</html>
