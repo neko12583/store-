@@ -26,7 +26,6 @@ class UserDetails(models.Model):
     realname = models.CharField('真实姓名', max_length=40)
     mobile = models.IntegerField('手机号')
     birthdate = models.CharField('出生日期', max_length=40)
-    idcard = models.IntegerField('身份证号')
     address = models.CharField('收货地址', max_length=40)
     uid = models.OneToOneField(UserAccount, on_delete=models.CASCADE)
 

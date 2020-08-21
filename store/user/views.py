@@ -91,9 +91,10 @@ def logout_view(request):
         resp.delete_cookie('username')
     if 'uid' in request.COOKIES:
         resp.delete_cookie('uid')
-
     return resp
 
-# 加了一行代码  明天试试能不能下载
-def test():
-    pass
+
+# 编辑资料
+def redact(request):
+    if request.method == "GET":
+        return render(request,'user/redact_information.html')
