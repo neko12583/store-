@@ -16,13 +16,13 @@ def cartview(request):
 
 
 def addcart(request):
-    uid=request.GET.get('uid')
+    user = request.user
     cid = request.GET.get('cid')
     try:
-        commodity = Cart.objects.get(userid=uid, commoditysid=cid)
+        commodity = Cart.objects.get(userid=user.id, commoditysid=cid)
     except Exception as e:
         print(e)
-        Cart.objects.create(userid=uid, commoditysid=cid)
-    commodity.count+=1
+        Cart.objects.create(userid=user.id, commoditysid=cid)
+    commodity.count += 1
     commodity.save()
     return HttpResponseRedirect(request.path)
