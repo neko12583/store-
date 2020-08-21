@@ -1,14 +1,15 @@
+import redis
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+
 from cart.models import Cart
-import redis
 
 # Create your views here.
 r = redis.Redis(host='*', port=6379, password='123456', db=1)
 
 
 def cartview(request):
-    user_id= request.POST.get('uid')
+    user_id = request.POST.get('uid')
     cache_key = 'user:%s' % user_id
     if 'uid' not in request.session:
         # 检查cookies
@@ -24,7 +25,6 @@ def cartview(request):
 
 
 def addcart(request):
-
     user = request.user
     cid = request.GET.get('cid')
     try:
@@ -56,12 +56,13 @@ def addcart(request):
     commodity.save()
     return HttpResponseRedirect(request.path)
 
+
 def deletecart(request):
-    user_id=request.POST.get('uid')
-    cid=request.POST.get('cid')
+    user_id = request.POST.get('uid')
+    cid = request.POST.get('cid')
     cache_key = 'user:%s' % user_id
     try:
-        commodity=Cart.objects.get(user_id=user_id,commoditysid=cid)
+        commodity = Cart.objects.get(user_id=user_id, commoditysid=cid)
         commodity.delete()
         r.delete(cache_key)
     except Exception as e:
@@ -69,18 +70,18 @@ def deletecart(request):
         return HttpResponse('delete error')
     return HttpResponseRedirect('cart/index')
 
+
 def updatecart(request):
-    user_id=request.POST.get('uid')
+    user_id = request.POST.get('uid')
     cache_key = 'user:%s' % user_id
-    cid=request.POST.get('cid')
-    count=request.POST.get('count')
+    cid = request.POST.get('cid')
+    count = request.POST.get('count')
     try:
-        commodity=Cart.objects.get(user_id=user_id,commoditysid=cid)
+        commodity = Cart.objects.get(user_id=user_id, commoditysid=cid)
     except Exception as e:
         print(e)
         return HttpResponse('error')
-    commodity.count=count
+    commodity.count = count
     commodity.save()
     r.delete(cache_key)
     return HttpResponseRedirect('cart/index')
-
