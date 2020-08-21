@@ -94,7 +94,29 @@ def logout_view(request):
     return resp
 
 
+# 个人中心
+def personal_center(request):
+    return render(request,'user/personal_center.html')
+
 # 编辑资料
-def redact(request):
+def edit_data(request):
     if request.method == "GET":
-        return render(request,'user/redact_information.html')
+        return render(request,'user/edit_data.html')
+    elif request.method == "POST":
+        pass
+        # username = request.POST['username']
+        # old_user = UserAccount.objects.filter(username=username)
+        # if old_user:
+        #     return HttpResponse("用户已存在")
+        #
+        # # hash算法加密
+        # md5 = hashlib.md5()  # 拿到ｍd５对象
+        # md5.update(password_1.encode())  # 把密码转成hash密码  参数只能传二进制数据
+        # password_h = md5.hexdigest()  # 16进制加密     # password_h为加密之后的密码
+        #
+        # try:  # 防止上面查的时候该用户名没有注册，到了这一步正巧有人抢先注册了  因为username字段设置了unique=True唯一性，所以不能重复
+        #     user = UserAccount.objects.create(username=username, password=password_h)
+        # except Exception as e:
+        #     print('create error is %s' % e)
+        #     return HttpResponse('该用户已经被注册')
+        # return HttpResponse("注册成功")
