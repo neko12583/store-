@@ -1,10 +1,11 @@
 from django.db import models
-
+from user.models import UserAccount
+from commodity.models import CommodityInfo
 
 # Create your models here.
 class Cart(models.Model):
-    userid = models.ForeignKey('用户id', UserAccount, on_delete=models.CASCADE)
-    commoditysid = models.ForeignKey('商品id', CommodityInfo, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(UserAccount, on_delete=models.CASCADE,varbose_name='用户id')
+    commoditysid = models.ForeignKey(CommodityInfo, on_delete=models.CASCADE,varbose_name='商品id')
     count = models.IntegerField('商品数量', default=1)
 
     class Meta:
