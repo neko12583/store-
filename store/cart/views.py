@@ -64,7 +64,11 @@ def updatecart(request):
     cache_key = 'user:%s' % user_id
     cid=request.POST.get('cid')
     count=request.POST.get('count')
-    commodity=Cart.objects.get(user_id=user_id,commoditysid=cid)
+    try:
+        commodity=Cart.objects.get(user_id=user_id,commoditysid=cid)
+    except Exception as e:
+        print(e)
+        return HttpResponse('error')
     commodity.count=count
     commodity.save()
     r.delete(cache_key)
