@@ -32,7 +32,6 @@ def addcart(request):
     except Exception as e:
         print(e)
         Cart.objects.create(userid=user.id, commoditysid=cid)
-
     user_id = request.POST.get('uid')
     cache_key = 'user:%s' % user_id
     cid = request.POST.get('cid')
@@ -51,7 +50,6 @@ def addcart(request):
     except Exception as e:
         print(e)
         Cart.objects.create(user_id=user_id, commoditysid=cid, count=count)
-
     commodity.count += 1
     commodity.save()
     return HttpResponseRedirect(request.path)
