@@ -1,20 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="74bca0db-df2f-4aa4-aa10-5fbce1f3da3b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/static/css&amp;js/jquery.easyfader.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css&amp;js/jquery.easyfader.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css&amp;js/jquery.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/imgs/explotion_cake.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/imgs/fruits_cake.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/imgs/love_cake.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/imgs/strawberry_cake.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/store/store/views.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/store/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/store/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/store/store/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/store/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/store/store/urls.py" afterDir="false" />
-    </list>
+    <list default="true" id="74bca0db-df2f-4aa4-aa10-5fbce1f3da3b" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
