@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'order',
     'shopping',
     'user',
+    'cart'
 ]
 
 MIDDLEWARE = [
@@ -56,7 +57,11 @@ ROOT_URLCONF = 'store.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+<<<<<<< HEAD
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
+=======
+        'DIRS': [os.path.join(BASE_DIR,'templates')],
+>>>>>>> xugp
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
