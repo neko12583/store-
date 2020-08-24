@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人信息</title>
+    <style>
+        td{
+            /* border: solid 1px */
+        }
+        #edit_in1{
+            width: 150px;
+            height: 30px;
+            border: solid 1px;
+            text-align: center;
+            line-height: 30px;
+            background-color: #f55a19;
+            margin-top: 10px;
+            border-radius: 4px;
+            color: #ffffff;
+            cursor: pointer;
+        }
+        table tr td select{
+            margin-right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h3>个人信息</h3>
+    <hr>
+    <form method="POST" action="/user/edit_data">
+        <table>
+            <tr>
+                <td>*会员名：</td>
+                <td><input placeholder="请输入会员名" type="text" name="username"></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>*称呼：</td>
+                <td><input placeholder="请输入称呼" type="text" name="nickname"></td>
+                <td>
+                    <input style="cursor: pointer;" type="radio" name="sex" value="1" checked />先生
+                    <input style="cursor: pointer;" type="radio" name="sex" value="2" />女士
+                </td>
+            </tr>
+            <tr>
+                <td>*手机:</td>
+                <td><input placeholder="请输入手机号" type="text" name="mobile"></td>
+                <td><input type="checkbox" name="bir_inform" />短信通知生日福利</td>
+            </tr>
+            <tr>
+                <td>E-mail:</td>
+                <td><input placeholder="请输入邮箱" type="text" name="email"></td>
+                <td><input type="checkbox" name="email_inform" />邮件通知生日福利</td>
+            </tr>
+            <tr>
+                <td>微信号:</td>
+                <td><input placeholder="请输入微信号" type="text" name="wechat"></td>
+                <td><input type="checkbox" name="wechat_inform" />加好友通知生日福利</td>
+            </tr>
+            <tr>
+                <td>*生日:</td>
+                <td colspan="2">
+                    <select style="cursor: pointer; height: 25px;" name="xl" id="xl">
+                        <option value="1">请选择</option>
+                        <option value="2">自己</option>
+                        <option value="3">父亲</option>
+                        <option value="4">母亲</option>
+                        <option value="5">爱人</option>
+                        <option value="6">子女</option>
+                    </select>
+
+                    <input placeholder="年" type="text" style="width: 50px">-
+                    <input placeholder="月" type="text" style="width: 50px">-
+                    <input placeholder="日" type="text" style="width: 50px">
+                </td>
+            </tr>
+        </table>
+        <input id="edit_in1" type="submit" value="修改并保存">
+    </form>
+</body>
+</html>

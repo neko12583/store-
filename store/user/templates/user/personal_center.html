@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人中心</title>
+    <style>
+        #per_d1{
+            width: 320px;
+            height: 200px;
+            border: 1px solid;
+            margin: 80px auto ;
+        }
+        a{
+            margin-right: 30px;
+        }
+    
+    </style>
+</head>
+<body>
+    <div id="per_d1">
+        <form method="post" action="/user/personal_center">
+            <table>
+                    <tr>
+                        <td style="width: 100px;">
+                            <img src="" alt="">(用户头像)
+                        </td>
+                        <td>
+                            <p>欢迎回来!</p>
+                            <p>{{ 姓名 }}</p>
+                            <br><br>
+                            <a href="">修改密码</a>
+                            <a href="">留言</a>
+                            <br>
+                            <a href="">收货地址</a>
+                            <a href="">编辑资料</a>
+                        </td>
+                    </tr>
+            </table>
+
+
+        </form>
+    </div>
+</body>
+</html>

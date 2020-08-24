@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>账号注册</title>
+    <style>
+        #user_id1{
+            width: 200px;
+            height: 180px;
+            border: 1px solid;
+            margin: 0 auto;
+            margin-top: 50px;
+        }
+        h3{
+            margin: 0;
+            padding: 0;
+        }
+        li{
+            margin-left: 10px;
+        }
+        .user_p1{
+            margin-left: 10px;
+            cursor: pointer;
+            background-color:#f55a19;
+            border-radius: 1px;
+            border: solid 1px orange;
+            color: #ffffff;
+            width: 150px;
+
+        }
+        .user_h1{
+            
+            display: inline-block;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+        #user_id2{
+            text-align: center;
+            position: relative;
+
+        }
+        #user_id3{
+            margin-right: 2px;
+        }
+
+        #user_id3:hover{
+            border: 1px solid;
+            padding: 0;
+            margin: 0;
+        }
+  
+    </style>
+</head>
+<body>
+    <div id="user_id1">
+        <form method="post" action="/user/register">
+            <div id="user_id2">  
+                <h3 id="user_id3" class="user_h1"></h3><h3 id="user_id4" class="user_h1">账号注册</h3>
+            </div>
+            
+            <hr>
+            <li><input style="width: 150px" type="text" placeholder="请输入用户名" name="username"></li>
+            <li><input style="width: 150px"  type="text" placeholder="请输入密码" name="password_1"></li>
+            <li><input style="width: 150px"  type="text" placeholder="请再次输入密码" name="password_2"></li>
+            <p style="text-align: center"><input class="user_p1" type="submit" value="注册"></p>
+        </form>
+    </div>
+
+</body>
+</html>
