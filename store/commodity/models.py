@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 class ProductsCategory(models.Model):
     CategoryName = models.CharField("类别名称", default="", max_length=50),
@@ -8,6 +9,7 @@ class ProductsCategory(models.Model):
         db_table = 'ProductsCategory'
         verbose_name = '类别表'
         verbose_name_plural = '类别表'
+
 
 class ImageInfo(models.Model):
     ImgUrl = models.CharField('大图片路径', max_length=100)
