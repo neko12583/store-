@@ -2,23 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="74bca0db-df2f-4aa4-aa10-5fbce1f3da3b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/store/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/store/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/store/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/store/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/store/.idea/store.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/store/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/store/user/migrations/0001_initial.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/store/user/templates/user/edit_data.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/store/user/templates/user/login.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/store/user/templates/user/personal_center.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/store/user/templates/user/register.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/store/user/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/order/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/store/order/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/css&amp;js/jquery.easyfader.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/css&amp;js/jquery.easyfader.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/css&amp;js/jquery.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/imgs/explotion_cake.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/imgs/fruits_cake.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/imgs/love_cake.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/imgs/strawberry_cake.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/store/store/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/store/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/store/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/store/store/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/store/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/store/store/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/user/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/store/user/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/user/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/store/user/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
