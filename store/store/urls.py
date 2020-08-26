@@ -21,9 +21,7 @@ from store import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-<<<<<<< HEAD
-    path('', views.index_store),
-=======
+    path('index_store', views.index_store),
     path('commodity/', include('commodity.urls')),
->>>>>>> shengm
+
 ]
