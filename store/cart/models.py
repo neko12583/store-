@@ -4,8 +4,8 @@ from commodity.models import CommodityInfo
 
 # Create your models here.
 class Cart(models.Model):
-    user_id = models.ForeignKey(UserAccount, on_delete=models.CASCADE,varbose_name='用户id')
-    commoditysid = models.ForeignKey(CommodityInfo, on_delete=models.CASCADE,varbose_name='商品id')
+    user_id = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+    commoditysid = models.ForeignKey(CommodityInfo, on_delete=models.CASCADE)
     count = models.IntegerField('商品数量', default=1)
 
     class Meta:
