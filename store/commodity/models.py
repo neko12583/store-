@@ -3,7 +3,7 @@ from django.db import models
 
 # Create your models here.
 class ProductsCategory(models.Model):
-    CategoryName = models.CharField("类别名称", default="", max_length=50),
+    CategoryName = models.CharField("类别名称", max_length=50),
 
     class Meta:
         db_table = 'ProductsCategory'
@@ -25,9 +25,9 @@ class CommodityInfo(models.Model):
     Name = models.CharField('商品名称', max_length=100),
     Info = models.CharField('商品描述信息', max_length=200),
     Material = models.CharField('商品原材料', max_length=100),
-    Price = models.DecimalField('商品价格', max_digits=5, decimal_places=2),
-    Size = models.DecimalField('商品尺寸', max_length=50),
-    Cisrec = models.IntegerField('是否推荐', default=True),
+    Price = models.DecimalField('商品价格', max_digits=5, decimal_places=1),
+    Size = models.DecimalField('商品磅数', max_digits=3, decimal_places=1),
+    Cisrec = models.IntegerField('是否上架', default=True),
     Sell = models.IntegerField('商品销售量', default=0),
     Best = models.IntegerField('好评数', default=0),
     Badc = models.IntegerField('差评数', default=0),
