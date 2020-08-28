@@ -2,69 +2,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>账号注册</title>
-    <style>
-        #user_id1{
-            width: 200px;
-            height: 180px;
-            border: 1px solid;
-            margin: 0 auto;
-            margin-top: 50px;
-        }
-        h3{
-            margin: 0;
-            padding: 0;
-        }
-        li{
-            margin-left: 10px;
-        }
-        .user_p1{
-            margin-left: 10px;
-            cursor: pointer;
-            background-color:#f55a19;
-            border-radius: 1px;
-            border: solid 1px orange;
-            color: #ffffff;
-            width: 150px;
-
-        }
-        .user_h1{
-            
-            display: inline-block;
-            cursor: pointer;
-            margin-top: 5px;
-        }
-        #user_id2{
-            text-align: center;
-            position: relative;
-
-        }
-        #user_id3{
-            margin-right: 2px;
-        }
-
-        #user_id3:hover{
-            border: 1px solid;
-            padding: 0;
-            margin: 0;
-        }
-  
-    </style>
+    <title>用户注册</title>
 </head>
+<style>
+    div{
+        display:inline-block;
+    }
+    #show1{
+        color: red;
+    }
+    #btn{
+        margin-right: 40px;
+    }
+</style>
+<script src="../../static/js/jquery-1.11.3.js"></script>
 <body>
-    <div id="user_id1">
-        <form method="post" action="/user/register">
-            <div id="user_id2">  
-                <h3 id="user_id3" class="user_h1"></h3><h3 id="user_id4" class="user_h1">账号注册</h3>
-            </div>
-            
-            <hr>
-            <li><input style="width: 150px" type="text" placeholder="请输入用户名" name="username"></li>
-            <li><input style="width: 150px"  type="text" placeholder="请输入密码" name="password_1"></li>
-            <li><input style="width: 150px"  type="text" placeholder="请再次输入密码" name="password_2"></li>
-            <p style="text-align: center"><input class="user_p1" type="submit" value="注册"></p>
-        </form>
-    </div>
+
+    <div>用户名:<input id="username" type="text" name="username"></div><div id="show1"></div><br>
+    <div>密码:<input id="password_1" type="text" name="password_1"></div><br>
+    <div>再次输入密码:<input id="password_2" type="text" name="password_2"><br>
+    <button id="btn">注册</button><a style="text-decoration:none;" href="/user/login">返回登录</a>
+
+    <script>
+    //　$ 符号表示html文档所有元素都已加载
+    $(function(){
+        // $('#btn')表示获取这个btn的对象,的点击事件执行function函数
+        $('#btn').click(function(){
+                var username=$('#username').val();
+                var password_1=$('#password_1').val();
+                var password_2=$('#password_2').val();
+            // jq 封装的ajax对象
+            $.ajax({
+                url:'/user/register_ajax?username='+username+'&password_1='+password_1+'&password_2='+password_2,
+                type:"GET",
+                // 把从url取回来的数据放在res中
+                success:function(res){
+                    // 把res传给html
+                   $('#show1').html(res)
+                }
+            })
+        })
+    })
+    </script>
+
 
 </body>
 </html>

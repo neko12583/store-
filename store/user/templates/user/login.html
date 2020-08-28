@@ -5,8 +5,8 @@
     <title>账号登录</title>
     <style>
         #user_id1{
-            width: 200px;
-            height: 180px;
+            width: 350px;
+            height: 280px;
             border: 1px solid;
             margin: 0 auto;
             margin-top: 50px;
@@ -58,26 +58,51 @@
             float: right;
             margin-right: 20px;
         }
+        li{
+            display: inline-block;
+        }
+        #show1{
+            display: inline-block;
+            color: red;
+            
+        }
 
     </style>
 </head>
+<script src="../../static/js/jquery-1.11.3.js"></script>
 <body>
     <div id="user_id1">
-        <form method="post" action="/user/login">
-            <div id="user_id2">
-                <h3 id="user_id3" class="user_h1"></h3><h3 id="user_id4" class="user_h1">账号登录</h3>
-            </div>
+        <div id="user_id2">
+            <h3 id="user_id3" class="user_h1"></h3><h3 id="user_id4" class="user_h1">账号登录</h3>
+        </div>
 
-            <hr>
-            <li><input style="width: 150px"  type="text" placeholder="请输入用户名" name="username"></li>
-            <li><input style="width: 150px"  type="text" placeholder="请输入登录密码" name="password"></li>
-            <p style=" font-size: 10px; margin-left: 20px">
-                记住用户<input type="checkbox" name="btn1">
-                <a style="text-decoration:none" class="user_a2" href="/user/register">注册新用户</a> 
-            </p>
-            <p style="text-align: center"><input class="user_p1" type="submit" value="登录"></p>
-        </form>
+        <hr>
+        <li><input id="username" style="width: 150px"  type="text" placeholder="请输入用户名" name="username"></li><div id="show1"></div>
+        <li><input id="password" style="width: 150px"  type="text" placeholder="请输入登录密码" name="password"></li>
+        <p style=" font-size: 10px; margin-left: 20px">
+            记住用户<input type="checkbox" name="btn1">
+            <a style="text-decoration:none" class="user_a2" href="/user/register">注册新用户</a> 
+        </p>
+        <p style="text-align: center"><button style="width: 150px;" onclick="login()">登录</button></p>
     </div>
+
+<script>
+    function login(){
+        var username = $('#username').val()
+        var password = $('#password').val()
+        $.ajax({
+            url:'http://127.0.0.1:8000/user/login_ajax?username='+ username + '&password='+password,
+            type:"GET",
+            success:function(res){
+                // 把res传给html
+               $('#show1').html(res)
+            }
+        })
+    }
+
+
+
+</script>
 
 </body>
 </html>
