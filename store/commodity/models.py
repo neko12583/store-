@@ -22,15 +22,15 @@ class ImageInfo(models.Model):
 
 
 class CommodityInfo(models.Model):
-    Name = models.CharField('商品名称', max_length=100),
-    Info = models.CharField('商品描述信息', max_length=200),
-    Material = models.CharField('商品原材料', max_length=100),
-    Price = models.DecimalField('商品价格', max_digits=5, decimal_places=1),
-    Size = models.DecimalField('商品磅数', max_digits=3, decimal_places=1),
-    Cisrec = models.IntegerField('是否上架', default=True),
-    Sell = models.IntegerField('商品销售量', default=0),
-    Best = models.IntegerField('好评数', default=0),
-    Badc = models.IntegerField('差评数', default=0),
+    Name = models.CharField('商品名称', max_length=100)
+    Info = models.CharField('商品描述信息', max_length=200)
+    Material = models.CharField('商品原材料', max_length=100)
+    Price = models.DecimalField('商品价格', max_digits=5, decimal_places=1)
+    Size = models.DecimalField('商品磅数', max_digits=3, decimal_places=1)
+    Cisrec = models.IntegerField('是否上架', default=True)
+    Sell = models.IntegerField('商品销售量', default=0)
+    Best = models.IntegerField('好评数', default=0)
+    Badc = models.IntegerField('差评数', default=0)
     ProductsCategory = models.ForeignKey(ProductsCategory, on_delete=models.CASCADE)
     ImageInfo = models.ForeignKey(ImageInfo, on_delete=models.CASCADE)
 
