@@ -23,6 +23,7 @@
             margin-right: 20px;
         }
     </style>
+    <script src="../../static/js/jquery-1.11.3.js"></script>
 </head>
 <body>
     <h3>个人信息</h3>
@@ -44,8 +45,8 @@
             </tr>
             <tr>
                 <td>*手机:</td>
-                <td><input placeholder="请输入手机号" type="text" name="mobile"></td>
-                <td><input type="checkbox" name="bir_inform" />短信通知生日福利</td>
+                <td><input type="text" class="phone" name="phone" placeholder="请输手机号" required/></td>
+                <td><input type="button" id="sms" onclick="settime(this);sendSMS()" value="免费获取验证码"></td>
             </tr>
             <tr>
                 <td>E-mail:</td>
@@ -78,4 +79,49 @@
         <input id="edit_in1" type="submit" value="修改并保存">
     </form>
 </body>
+<script>
+	var countdown=60;
+	function settime(obj) {
+    	if (countdown == 0) {
+        	obj.removeAttribute("disabled");
+        	obj.value="免费获取验证码";
+			countdown = 60;
+        	return;
+    	} else {
+            //点击之后就给input设置disabled属性，带有disabled属性的input不可以点击
+        	obj.setAttribute("disabled", true);
+        	obj.value="重新发送(" + countdown + ")";
+        	countdown--;
+    	}
+        //在１秒后调用settime方法，所以这是一个死循环，直到countdown==０,才会return
+		setTimeout(function() {
+    		settime(obj) }
+    	,1000)
+	}
+
+
+	function sendSMS(){
+		var phone = $('.phone').val();
+		var post_data = {'phone':phone};
+		console.log(post_data);
+		//post --> https://127.0.0.1:8000/user/sms
+		$.ajax({
+			url:'/user/sms',
+			type:'post',
+			data:JSON.stringify(post_data),
+			contentType:'application/json',
+			dataType:'json',
+			success:function(res){
+				if(res.code==200){
+					alert('短信已发送到您手机,请查收!')
+				}else{
+					alert(res.error);
+				}
+			}
+		})
+	}
+
+
+</script>
+
 </html>

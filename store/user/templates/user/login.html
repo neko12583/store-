@@ -54,9 +54,13 @@
 
         }
         .user_a2{
-            font-size: 10px;
-            float: right;
-            margin-right: 20px;
+            font-size: 16px;
+            margin-left: 143px;
+            color: #999999;        
+        }
+        #user_id1 span{
+            color: #999999;
+            margin-left: 100px;
         }
         li{
             display: inline-block;
@@ -81,9 +85,10 @@
         <li><input id="password" style="width: 150px"  type="text" placeholder="请输入登录密码" name="password"></li>
         <p style=" font-size: 10px; margin-left: 20px">
             记住用户<input type="checkbox" name="btn1">
-            <a style="text-decoration:none" class="user_a2" href="/user/register">注册新用户</a> 
         </p>
         <p style="text-align: center"><button style="width: 150px;" onclick="login()">登录</button></p>
+        <a style="text-decoration:none" class="user_a2" href="/user/register">立即注册</a><br><br>
+        <span> 第三方账号登录 </span><a href=""><img class="user_a3" title="新浪微博" src="../../static/picture/wb.png"></a>
     </div>
 
 <script>

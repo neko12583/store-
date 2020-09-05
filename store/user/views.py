@@ -1,5 +1,9 @@
 import hashlib
-from django.http import HttpResponse
+import json
+import random
+
+from django.core.cache import cache
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from .models import UserAccount
 
@@ -81,20 +85,6 @@ def login_ajax(request):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # 注销
 def logout_view(request):
     # 删除session
@@ -139,3 +129,39 @@ def edit_data(request):
         #     print('create error is %s' % e)
         #     return HttpResponse('该用户已经被注册')
         # return HttpResponse("注册成功")
+
+
+
+def sms_view(request):
+    # 获取　{'phone':phone}
+    json_str = request.body
+    print(type(json_str))    # <class 'bytes'>
+    json_obj = json.loads(json_str.decode())
+    print(type(json_obj))   # <class 'dict'>
+    phone = json_obj['phone']
+    print(phone)
+    cache_key = 'sms_%s'%phone
+    # 查找缓存中有没有这个cache_key,防止用户多次点击按钮重复发送验证码
+    old_code = cache.get(cache_key)
+    cache.set('YPPPPP', 'YYYYYY', 30)
+    print('-----23333-----',old_code)
+    # 如果已存在
+    if old_code:
+        result = {'code':10112,'error':'请勿重复发送'}
+        return JsonResponse(result)
+    code = random.randint(1000,9999)
+    print(code)
+    # 保存到redis缓存中
+    cache.set(cache_key,code,65)
+    a = cache.get(cache_key)
+    print(a,'11111111111111111111111111111111111')
+    #　同步发送
+    # x = YunTongXun(settings.SMS_ACCOUNT_ID,settings.SMS_ACCOUNT_TOKEN,settings.SMS_APP_ID,settings.SMS_TEMPLATE_ID)
+    # res = x.run('13713788072',code)    # 向指定手机发送指定验证码
+    # print(res)  # 查看是否６个０　　６个０表示发送成功
+
+    # 异步发送
+    # send_sms.delay(phone,code)
+
+
+    return JsonResponse({'code':200,'error':'出错啦'})

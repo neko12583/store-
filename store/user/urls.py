@@ -15,9 +15,15 @@ urlpatterns = [
     # 127.0.0.1:8000/user/logout
     path('logout', views.logout_view),
 
+    # 进到欢迎回来页面
     # 127.0.0.1:8000/user/personal_center
     path('personal_center', views.personal_center),
 
     # 127.0.0.1:8000/user/edit_data
     path('edit_data', views.edit_data),
+
+    # 127.0.0.1:8000/user/sms
+    path('sms',views.sms_view),
 ]
+
+
