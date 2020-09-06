@@ -10,7 +10,34 @@
             border: 1px solid;
             margin: 0 auto;
             margin-top: 50px;
+            float: left;
+            position: absolute;
+            left: 10px;
+            background-color: #fff;
+        } 
+
+        #user_id99{
+            width: 350px;
+            height: 280px;
+            border: 1px solid;
+            margin: 0 auto;
+            margin-top: 50px;
+            float: left;
+            position: absolute;
+            left: 10px;
+            background-color: #fff;
         }
+        .style1{
+            z-index: 5;
+        }
+
+        .style2{
+            z-index: 4;
+        }
+
+
+
+
         h3{
             margin: 0;
             padding: 0;
@@ -44,9 +71,10 @@
         }
 
         #user_id3:hover{
-            border: 1px solid;
-            padding: 0;
-            margin: 0;
+            color: red;
+        }
+        #user_id4:hover{
+            color: red;
         }
         .user_a1{
             font-size: 10px;
@@ -58,7 +86,7 @@
             margin-left: 143px;
             color: #999999;        
         }
-        #user_id1 span{
+        span{
             color: #999999;
             margin-left: 100px;
         }
@@ -68,16 +96,15 @@
         #show1{
             display: inline-block;
             color: red;
-            
         }
 
     </style>
 </head>
 <script src="../../static/js/jquery-1.11.3.js"></script>
 <body>
-    <div id="user_id1">
+    <div id="user_id1" class="style1">
         <div id="user_id2">
-            <h3 id="user_id3" class="user_h1"></h3><h3 id="user_id4" class="user_h1">账号登录</h3>
+            <h3 id="user_id3" class="user_h1" onclick=style1()>手机验证登录</h3> | <h3 id="user_id4"  class="user_h1" onclick=style2() >账号密码登录</h3>
         </div>
 
         <hr>
@@ -86,12 +113,45 @@
         <p style=" font-size: 10px; margin-left: 20px">
             记住用户<input type="checkbox" name="btn1">
         </p>
-        <p style="text-align: center"><button style="width: 150px;" onclick="login()">登录</button></p>
-        <a style="text-decoration:none" class="user_a2" href="/user/register">立即注册</a><br><br>
+        <p style="text-align: center"><button style="width: 150px;" onclick="login()">账号登录</button></p>
+        <a style="text-decoration:none" class="user_a2" href="/user/register">注册账号</a><br><br>
         <span> 第三方账号登录 </span><a href=""><img class="user_a3" title="新浪微博" src="../../static/picture/wb.png"></a>
     </div>
 
+
+    <div id="user_id99" class="style2" >
+        <div id="user_id2">
+            <h3 id="user_id3" class="user_h1" onclick=style1()>手机验证登录</h3> | <h3 id="user_id4" class="user_h1" onclick=style2()>账号密码登录</h3>
+        </div>
+
+        <hr>
+        <li><input id="phone" style="width: 150px"  type="text" placeholder="手机号码" name="phone"></li><div id="show1"></div>
+        <li>
+            <input id="verification" style="width: 150px"  type="text" placeholder="短信验证码" name="verification">
+            <input type="button" id="sms" onclick="settime(this);sendSMS()" value="获取验证码">
+        </li>
+        <p style="text-align: center"><button style="width: 150px;" onclick="login()">手机登录</button></p>
+        <a style="text-decoration:none" class="user_a2" href="/user/register">注册账号</a><br><br>
+        <span> 第三方账号登录 </span><a href=""><img class="user_a3" title="新浪微博" src="../../static/picture/wb.png"></a>
+    </div>
+
+
 <script>
+    function style1(){
+        $('.style1').css('z-index','2')
+        $('.style2').css('z-index','1')
+    }
+
+
+    function style2(){
+        $('.style1').css('z-index','1')
+        $('.style2').css('z-index','2')
+    }
+
+
+
+
+
     function login(){
         var username = $('#username').val()
         var password = $('#password').val()
@@ -104,6 +164,8 @@
             }
         })
     }
+
+
 
 
 

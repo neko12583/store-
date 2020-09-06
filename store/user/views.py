@@ -6,6 +6,8 @@ from django.core.cache import cache
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from .models import UserAccount
+from tools.sms import YunTongXun
+from django.conf import settings
 
 
 # 　返回注册页面
@@ -143,8 +145,6 @@ def sms_view(request):
     cache_key = 'sms_%s'%phone
     # 查找缓存中有没有这个cache_key,防止用户多次点击按钮重复发送验证码
     old_code = cache.get(cache_key)
-    cache.set('YPPPPP', 'YYYYYY', 30)
-    print('-----23333-----',old_code)
     # 如果已存在
     if old_code:
         result = {'code':10112,'error':'请勿重复发送'}
@@ -156,9 +156,9 @@ def sms_view(request):
     a = cache.get(cache_key)
     print(a,'11111111111111111111111111111111111')
     #　同步发送
-    # x = YunTongXun(settings.SMS_ACCOUNT_ID,settings.SMS_ACCOUNT_TOKEN,settings.SMS_APP_ID,settings.SMS_TEMPLATE_ID)
-    # res = x.run('13713788072',code)    # 向指定手机发送指定验证码
-    # print(res)  # 查看是否６个０　　６个０表示发送成功
+    x = YunTongXun(settings.SMS_ACCOUNT_ID,settings.SMS_ACCOUNT_TOKEN,settings.SMS_APP_ID,settings.SMS_TEMPLATE_ID)
+    res = x.run('13713788072',code)    # 向指定手机发送指定验证码
+    print(res,'2222222222222')  # 查看是否６个０　　６个０表示发送成功
 
     # 异步发送
     # send_sms.delay(phone,code)
