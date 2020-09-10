@@ -14,9 +14,8 @@ class UserAccount(models.Model):
 
     class Meta:
         db_table = 'UserAccount'
-
-    def __str__(self):
-        return "用户" + self.username
+        verbose_name = '账号信息'
+        verbose_name_plural = '账号信息'
 
 
 class UserDetails(models.Model):
@@ -34,6 +33,5 @@ class UserDetails(models.Model):
 
     class Meta:
         db_table = 'UserDetails'
-
-    def __str__(self):
-        return "姓名" + self.realname
+        verbose_name = '用户信息'
+        verbose_name_plural = '用户信息'
