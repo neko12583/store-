@@ -6,6 +6,7 @@ from django.core.cache import cache
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from .models import UserAccount
+from .tasks import send_sms
 from tools.sms import YunTongXun
 from django.conf import settings
 
@@ -55,6 +56,7 @@ def login_view(request):
         request.session['username'] = username
         request.session['uid'] = uid
         return HttpResponse("你已经登录")
+    # 证明没缓存，得重新登录
     return render(request, 'user/login.html')
 
 # 正式登录
@@ -133,6 +135,21 @@ def edit_data(request):
         # return HttpResponse("注册成功")
 
 
+def set_phone(request):
+    return render(request,'user/set_phone.html')
+
+
+def save_phone(request):
+    code = request.POST['code']
+    phone = request.POST['phone']
+    cache_key = 'sms_%s' % phone
+    old_code = cache.get(cache_key)
+    print(type(code),type(old_code))
+    if code == old_code:
+        pass
+    else:
+        result = {'code': 10113, 'error': '输入的验证码有误'}
+        return JsonResponse(result)
 
 def sms_view(request):
     # 获取　{'phone':phone}
@@ -156,12 +173,13 @@ def sms_view(request):
     a = cache.get(cache_key)
     print(a,'11111111111111111111111111111111111')
     #　同步发送
-    x = YunTongXun(settings.SMS_ACCOUNT_ID,settings.SMS_ACCOUNT_TOKEN,settings.SMS_APP_ID,settings.SMS_TEMPLATE_ID)
-    res = x.run('13713788072',code)    # 向指定手机发送指定验证码
-    print(res,'2222222222222')  # 查看是否６个０　　６个０表示发送成功
+    # x = YunTongXun(settings.SMS_ACCOUNT_ID,settings.SMS_ACCOUNT_TOKEN,settings.SMS_APP_ID,settings.SMS_TEMPLATE_ID)
+    # res = x.run('13713788072',code)    # 向指定手机发送指定验证码
+    # print(res,'2222222222222')  # 查看是否６个０　　６个０表示发送成功
 
     # 异步发送
-    # send_sms.delay(phone,code)
-
+    send_sms.delay(phone,code)
 
     return JsonResponse({'code':200,'error':'出错啦'})
+
+
