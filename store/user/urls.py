@@ -22,17 +22,15 @@ urlpatterns = [
     # 127.0.0.1:8000/user/edit_data
     path('edit_data', views.edit_data),
 
-
     # 127.0.0.1:8000/user/set_phone
     path('set_phone',views.set_phone),
-
 
     # 127.0.0.1:8000/user/sms
     path('sms',views.sms_view),
 
     # 127.0.0.1:8000/user/save_phone
     # 检验短信验证码，并储存手机号
-    path('save_phone',views.save_phone)
+    path('save_phone',views.save_phone),
 ]
 
 

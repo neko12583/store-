@@ -127,10 +127,10 @@
         <hr>
         <li><input id="phone" style="width: 150px"  type="text" placeholder="手机号码" name="phone"></li><div id="show1"></div>
         <li>
-            <input id="verification" style="width: 150px"  type="text" placeholder="短信验证码" name="verification">
+            <input id="code" style="width: 150px"  type="text" placeholder="短信验证码" name="code">
             <input type="button" id="sms" onclick="settime(this);sendSMS()" value="获取验证码">
         </li>
-        <p style="text-align: center"><button style="width: 150px;" onclick="login()">手机登录</button></p>
+        <p style="text-align: center"><button style="width: 150px;" onclick="verify()">手机登录</button></p>
         <a style="text-decoration:none" class="user_a2" href="/user/register">注册账号</a><br><br>
         <span> 第三方账号登录 </span><a href=""><img class="user_a3" title="新浪微博" src="../../static/picture/wb.png"></a>
     </div>
@@ -161,6 +161,67 @@
             }
         })
     }
+
+    var countdown=60;
+    function settime(obj) {
+        if (countdown == 0) {
+            obj.removeAttribute("disabled");
+            obj.value="免费获取验证码";
+            countdown = 60;
+            return;
+        } else {
+            //点击之后就给input设置disabled属性，带有disabled属性的input不可以点击
+            obj.setAttribute("disabled", true);
+            obj.value="重新发送(" + countdown + ")";
+            countdown--;
+        }
+        //在１秒后调用settime方法，所以这是一个死循环，直到countdown==０,才会return
+        setTimeout(function() {
+            settime(obj) }
+        ,1000)
+    }
+
+    function sendSMS(){
+            var phone = $('#phone').val();
+            var post_data = {'phone':phone};
+            console.log(post_data);
+            //post --> https://127.0.0.1:8000/user/sms
+            $.ajax({
+                url:'/user/sms',
+                type:'post',
+                data:JSON.stringify(post_data),
+                contentType:'application/json',
+                dataType:'json',
+                success:function(res){
+                    if(res.code==200){
+                        alert('短信已发送到您手机,请查收!')
+                    }else{
+                        alert(res.error);
+                    }
+                }
+            })
+        }
+    
+        function verify(){
+            var code = $('#code').val();
+            var phone = $('#phone').val();
+            var post_data = {'code':code,'phone':phone};
+            
+            $.ajax({
+                url:'/user/save_phone',
+                type:'post',
+                data:JSON.stringify(post_data),
+                contentType:'application/json',
+                dataType:'json',
+                success:function(res){
+                    if(res.code==200){
+                        alert('登录成功')
+                    }else{
+                        alert(res.error);
+                    }
+                }
+            })
+        }
 
 
 
