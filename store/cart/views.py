@@ -11,31 +11,31 @@ r = redis.Redis(host='*', port=6379, password='123456', db=1)
 def cartview(request):
     user_id = request.POST.get('uid')
     cache_key = 'user:%s' % user_id
-    if 'uid' not in request.session:
-        # 检查cookies
-        c_uid = request.COOKIES.get('uid')
-        if not c_uid:
-            all_goods = r.hgetall(cache_key)
-            goods_dict = {m.decode(): v.decode() for m, v in all_goods.items()}
-            return render(request, 'cart/index', locals())
-        else:
-            request.session['uid'] = c_uid
     commoditys = Cart.objects.filter(user_id=user_id)
-    return render(request, 'cart/index', locals())
+    if r.exists(cache_key):
+        commoditys = r.hgetall(cache_key)
+        commoditys_dict = {m.decode(): v.decode() for m, v in commoditys.items()}
+        return render(request, 'cart/index', locals())
+    else:
+        commoditys_dict = {}
+        for n in commoditys:
+            commoditys_dict[n.commoditysid] = n.count
+        return render(request, 'cart/index', locals())
 
 
 def addcart(request):
-    user = request.user
-    cid = request.GET.get('cid')
-    try:
-        commodity = Cart.objects.get(userid=user.id, commoditysid=cid)
-    except Exception as e:
-        print(e)
-        Cart.objects.create(userid=user.id, commoditysid=cid)
     user_id = request.POST.get('uid')
     cache_key = 'user:%s' % user_id
     cid = request.POST.get('cid')
     count = request.POST.get('count')
+    try:
+        commodity = Cart.objects.get(user_id=user_id, commoditysid=cid)
+    except Exception as e:
+        print(e)
+        Cart.objects.create(user_id=user_id, commoditysid=cid)
+    else:
+        commodity.count += 1
+        commodity.save()
     if r.exists(cache_key):
         if r.hexists(cache_key, cid):
             r.hincrby(cache_key, cid, count)
@@ -45,13 +45,7 @@ def addcart(request):
     else:
         r.hset(cache_key, cid, count)
         r.expire(cache_key, 60 * 60 * 12)
-    try:
-        commodity = Cart.objects.get(user_id=user_id, commoditysid=cid)
-    except Exception as e:
-        print(e)
-        Cart.objects.create(user_id=user_id, commoditysid=cid, count=count)
-    commodity.count += 1
-    commodity.save()
+
     return HttpResponseRedirect(request.path)
 
 
