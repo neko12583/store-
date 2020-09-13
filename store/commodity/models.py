@@ -3,6 +3,7 @@ from django.db import models
 
 # Create your models here.
 class ProductsCategory(models.Model):
+
     CategoryName = models.CharField("类别名称", max_length=50)
 
     class Meta:
