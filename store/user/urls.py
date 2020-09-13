@@ -31,6 +31,16 @@ urlpatterns = [
     # 127.0.0.1:8000/user/save_phone
     # 检验短信验证码，并储存手机号
     path('save_phone',views.save_phone),
+
+    # 微博相关
+    # 127.0.0.1:8000/user/weibo/authorization
+    path('weibo/authorization',views.weibo_authorization),
+
+    # 127.0.0.1:8000/user/weibo/users
+    path('weibo/users',views.weibo_users),
+
+
+
 ]
 
 

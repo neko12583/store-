@@ -35,3 +35,14 @@ class UserDetails(models.Model):
         db_table = 'UserDetails'
         verbose_name = '用户信息'
         verbose_name_plural = '用户信息'
+
+
+class WeiboProfile(models.Model):
+    # 表一对一关联
+    user_profile = models.OneToOneField(UserAccount,on_delete=models.CASCADE)
+    # 微博的id
+    w_uid = models.CharField(max_length=10, verbose_name='微博uid', unique=True)
+    access_token = models.CharField(verbose_name='微博授权令牌', max_length=32)
+
+    class Meta:
+        db_table = 'user_weibo_profile'

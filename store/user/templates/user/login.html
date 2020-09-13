@@ -115,7 +115,7 @@
         </p>
         <p style="text-align: center"><button style="width: 150px;" onclick="login()">账号登录</button></p>
         <a style="text-decoration:none" class="user_a2" href="/user/register">注册账号</a><br><br>
-        <span> 第三方账号登录 </span><a href=""><img class="user_a3" title="新浪微博" src="../../static/picture/wb.png"></a>
+        <span> 第三方账号登录 </span><img class="user_a3" onclick="weibo()" title="新浪微博" src="../../static/picture/wb.png">
     </div>
 
 
@@ -132,7 +132,7 @@
         </li>
         <p style="text-align: center"><button style="width: 150px;" onclick="verify()">手机登录</button></p>
         <a style="text-decoration:none" class="user_a2" href="/user/register">注册账号</a><br><br>
-        <span> 第三方账号登录 </span><a href=""><img class="user_a3" title="新浪微博" src="../../static/picture/wb.png"></a>
+        <span> 第三方账号登录 </span><img class="user_a3" onclick="weibo()" title="新浪微博" src="../../static/picture/wb.png">
     </div>
 
 
@@ -202,28 +202,40 @@
             })
         }
     
-        function verify(){
-            var code = $('#code').val();
-            var phone = $('#phone').val();
-            var post_data = {'code':code,'phone':phone};
-            
-            $.ajax({
-                url:'/user/save_phone',
-                type:'post',
-                data:JSON.stringify(post_data),
-                contentType:'application/json',
-                dataType:'json',
-                success:function(res){
-                    if(res.code==200){
-                        alert('登录成功')
-                    }else{
-                        alert(res.error);
-                    }
+    function verify(){
+        var code = $('#code').val();
+        var phone = $('#phone').val();
+        var post_data = {'code':code,'phone':phone};
+
+        $.ajax({
+            url:'/user/save_phone',
+            type:'post',
+            data:JSON.stringify(post_data),
+            contentType:'application/json',
+            dataType:'json',
+            success:function(res){
+                if(res.code==200){
+                    alert('登录成功')
+                }else{
+                    alert(res.error);
                 }
-            })
-        }
+            }
+        })
+    }
 
-
+    function weibo(){
+        $.ajax({
+            url:'/user/weibo/authorization',
+            type:'get',
+            success:function(res){
+                if(res.code==200){
+                    window.location.href = res.oauth_url
+                }else{
+                    alert('登录失败');
+                }
+            }
+        })
+    }
 
 
 
