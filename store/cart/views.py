@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.utils.decorators import method_decorator
 from django.views import View
 
+from tools.cache_dec import topic_cache
 from tools.logging_dec import logging_check
 from cart.models import Cart
 from commodity.models import CommodityInfo
@@ -13,17 +14,18 @@ from commodity.models import CommodityInfo
 r = redis.Redis(host='*', port=6379, password='123456', db=1)
 
 class CartView(View):
+    @method_decorator(topic_cache(12*3600))
     @method_decorator(logging_check)
     def get(request):
         user = request.user
         cache_key = 'user:%s' % user.id
-        commoditys = Cart.objects.filter(user_id=user.id)
+        goods = Cart.objects.filter(user_id=user.id)
         if r.exists(cache_key):
             commoditys = r.hgetall(cache_key)
             commoditys_dict = {m.decode(): v.decode() for m, v in commoditys.items()}
             return JsonResponse({'code': 200, 'data': commoditys_dict})
         else:
-            for commodity in commoditys:
+            for commodity in goods:
                 good = {}
                 good['name'] = CommodityInfo.objects.get(id=commodity.commoditysid).Name
                 good['size'] = CommodityInfo.objects.get(id=commodity.commoditysid).Size
