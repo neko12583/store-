@@ -206,7 +206,6 @@
         var code = $('#code').val();
         var phone = $('#phone').val();
         var post_data = {'code':code,'phone':phone};
-
         $.ajax({
             url:'/user/save_phone',
             type:'post',
@@ -216,6 +215,10 @@
             success:function(res){
                 if(res.code==200){
                     alert('登录成功')
+                    setTimeout("changeState()",3000 );
+                    function changeState(){
+                        window.location.href = 'http://127.0.0.1:8000/user/personal_center'
+                    }
                 }else{
                     alert(res.error);
                 }

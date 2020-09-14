@@ -21,14 +21,14 @@ class UserAccount(models.Model):
 class UserDetails(models.Model):
     #  1男  2女
     gender = models.IntegerField('性别', default=0)
-    realname = models.CharField('真实姓名', max_length=40)
-    wechat = models.CharField('微信号', max_length=40)
-    email = models.CharField('邮箱', max_length=40)
-    nickname = models.CharField("昵称", max_length=40)
-    mobile = models.IntegerField('手机号')
+    realname = models.CharField('真实姓名', max_length=40,null=True)
+    wechat = models.CharField('微信号', max_length=40,null=True)
+    email = models.CharField('邮箱', max_length=40,null=True)
+    nickname = models.CharField("昵称", max_length=40,null=True)
+    mobile = models.CharField('手机号',max_length=20)
     # 自己-年份-月份-日
-    birthdate = models.CharField('出生日期', max_length=40)
-    address = models.CharField('收货地址', max_length=80)
+    birthdate = models.CharField('出生日期', max_length=40,null=True)
+    address = models.CharField('收货地址', max_length=80,null=True)
     uid = models.OneToOneField(UserAccount, on_delete=models.CASCADE)
 
     class Meta:

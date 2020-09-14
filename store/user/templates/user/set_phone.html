@@ -17,9 +17,10 @@
         text-align: center;
     }
     button{
-        width: 50px;
+        width: 70px;
         height: 30px;
         margin-left: 100px;
+        
     }
 </style>
 <script src="../../static/js/jquery-1.11.3.js"></script>
@@ -42,7 +43,7 @@
         function settime(obj) {
             if (countdown == 0) {
                 obj.removeAttribute("disabled");
-                obj.value="免费获取验证码";
+                obj.value="获取验证码";
                 countdown = 60;
                 return;
             } else {

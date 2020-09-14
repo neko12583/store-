@@ -5,11 +5,10 @@ from urllib.parse import urlencode
 
 import requests
 from django.core.cache import cache
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render
-from .models import UserAccount,WeiboProfile
+from .models import UserAccount, WeiboProfile, UserDetails
 from .tasks import send_sms
-from tools.sms import YunTongXun
 from django.conf import settings
 from tools.logging_dec import logging_check
 
@@ -120,11 +119,41 @@ def save_phone(request):
     json_obj = json.loads(json_str.decode())
     code = json_obj['code']
     phone = json_obj['phone']
+    print('*'*100,code,phone)
     cache_key = 'sms_%s' % phone
     old_code = str(cache.get(cache_key))
     if code == old_code:
         result = {'code': 200}
-        return JsonResponse(result)
+        # 先检查 该手机用户是否第一次进入我们的网站，如果第一次登录则存下来,外键可以暂时为空
+        try:
+            # 如果没报错，说明获取到了，说明这个用户之前已经注册过
+            phone_user = UserDetails.objects.get(mobile=phone)
+        except Exception as e:
+            # 该用户手机第一次,所以插入表中
+            username = '手机用户{}'.format(phone)
+            password = phone
+            # hash算法加密
+            md5 = hashlib.md5()  # 拿到ｍd５对象
+            md5.update(password.encode())  # 把密码转成hash密码  参数只能传二进制数据
+            password_h = md5.hexdigest()  # 16进制加密     # password_h为加密之后的密码
+            user = UserAccount.objects.create(username=username, password=password_h)
+            print('-' * 100)
+            phone_user = UserDetails.objects.create(mobile=phone,uid=user)
+            print('+' * 100)
+            uid = user.id
+            # 在session保存登录状态
+            request.session['uid'] = uid
+            request.session['username'] = username
+            print('+1'*100)
+            return JsonResponse({'code':200})
+        print('*' * 100)
+        user = UserAccount.objects.get(id=phone_user.uid_id)
+        print('+3' * 100)
+        request.session['uid'] = phone_user.uid
+        request.session['username'] = user.username
+        print('+2' * 100)
+        return JsonResponse({'code':200})
+
     else:
         result = {'code': 10113, 'error': '输入的验证码有误'}
         return JsonResponse(result)
@@ -137,10 +166,11 @@ def sms_view(request):
     json_obj = json.loads(json_str.decode())
     print(type(json_obj))  # <class 'dict'>
     phone = json_obj['phone']
-    print(phone)
+    print(phone,'*'*100)
     cache_key = 'sms_%s' % phone
     # 查找缓存中有没有这个cache_key,防止用户多次点击按钮重复发送验证码
     old_code = cache.get(cache_key)
+    print('+'*100)
     # 如果已存在
     if old_code:
         result = {'code': 10112, 'error': '请勿重复发送'}
@@ -209,19 +239,26 @@ def weibo_users(request):
     try:
         # 如果没报错，说明获取到了，说明这个用户之前已经注册过
         weibo_user = WeiboProfile.objects.get(w_uid=weibo_uid)
-        uid = weibo_user.user_profile_id
+        user = weibo_user.user_profile_id
     except Exception as e:
         # 该用户第一次登录,所以插入表中
         username = '微博用户_{}'.format(weibo_uid)
         password = weibo_uid
-        user = UserAccount.objects.create(username=username,password=password)
-        WeiboProfile.objects.create(access_token=access_token,w_uid=weibo_uid,user_profile=user.id)
+        # hash算法加密
+        md5 = hashlib.md5()  # 拿到ｍd５对象
+        md5.update(password.encode())  # 把密码转成hash密码  参数只能传二进制数据
+        password_h = md5.hexdigest()  # 16进制加密     # password_h为加密之后的密码
+        user = UserAccount.objects.create(username=username,password=password_h)
+        print('-' * 100)
+        WeiboProfile.objects.create(access_token=access_token,w_uid=weibo_uid,user_profile=user)
+        print('+'*100)
         uid = user.id
         # 在session保存登录状态
         request.session['uid'] = user.id
         request.session['username'] = username
         return render(request, 'user/callback.html', locals())
-    user = UserAccount.objects.get(id=uid)
+    print('*' * 100)
+    # user = UserAccount.objects.get(id=uid)
     request.session['uid'] = user.id
     request.session['username'] = user.username
     return render(request, 'user/callback.html',locals())
