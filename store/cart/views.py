@@ -35,7 +35,7 @@ class CartView(View):
                 return JsonResponse({'code': 200, 'data': good})
 
 
-    @logging_check
+    @method_decorator(logging_check)
     def post(request):
         user = request.user
         cache_key = 'user:%s' % user.id
@@ -51,13 +51,13 @@ class CartView(View):
             print(e)
             Cart.objects.create(user_id=user.id, commoditysid=cid)
         else:
-            commodity.count += 1
+            commodity.count += count
             commodity.save()
         r.delete(cache_key)
         return JsonResponse({'code': 200, 'success': '加车成功'})
 
 
-    @logging_check
+    @method_decorator(logging_check)
     def delete(request):
         user = request.user
         cid = request.POST.get('cid')
@@ -72,7 +72,7 @@ class CartView(View):
         return JsonResponse({'code': 200})
 
 
-    @logging_check
+    @method_decorator(logging_check)
     def put(request):
         user = request.user
         cache_key = 'user:%s' % user.id
