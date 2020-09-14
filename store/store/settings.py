@@ -120,3 +120,23 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# 设置缓存　放到redis库
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            # 'PASSWORD':'123456',
+        }
+    }
+}
+
+SMS_ACCOUNT_ID = '8aaf0708732220a601743961b8c5763f'
+SMS_ACCOUNT_TOKEN = '957d47b86775416d9520760fead980f0'
+SMS_APP_ID = '8aaf0708732220a601743961b9807645'
+SMS_TEMPLATE_ID = '1'
+
+# 设置session在cookies中过期时间20分钟
+SESSION_COOKIE_AGE = 60 * 20

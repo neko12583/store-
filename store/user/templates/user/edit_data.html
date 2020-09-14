@@ -23,6 +23,7 @@
             margin-right: 20px;
         }
     </style>
+    
 </head>
 <body>
     <h3>个人信息</h3>
@@ -30,23 +31,19 @@
     <form method="POST" action="/user/edit_data">
         <table>
             <tr>
-                <td>*会员名：</td>
-                <td><input placeholder="请输入会员名" type="text" name="username"></td>
+                <td>*真实姓名：</td>
+                <td><input placeholder="请输入真实姓名" type="text" name="username"></td>
                 <td></td>
             </tr>
             <tr>
-                <td>*称呼：</td>
-                <td><input placeholder="请输入称呼" type="text" name="nickname"></td>
+                <td>*昵称：</td>
+                <td><input placeholder="请输入昵称" type="text" name="nickname"></td>
                 <td>
                     <input style="cursor: pointer;" type="radio" name="sex" value="1" checked />先生
                     <input style="cursor: pointer;" type="radio" name="sex" value="2" />女士
                 </td>
             </tr>
-            <tr>
-                <td>*手机:</td>
-                <td><input placeholder="请输入手机号" type="text" name="mobile"></td>
-                <td><input type="checkbox" name="bir_inform" />短信通知生日福利</td>
-            </tr>
+
             <tr>
                 <td>E-mail:</td>
                 <td><input placeholder="请输入邮箱" type="text" name="email"></td>
@@ -78,4 +75,6 @@
         <input id="edit_in1" type="submit" value="修改并保存">
     </form>
 </body>
+
+
 </html>
