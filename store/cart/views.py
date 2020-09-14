@@ -16,30 +16,23 @@ r = redis.Redis(host='*', port=6379, password='123456', db=1)
 class CartView(View):
     @method_decorator(topic_cache(12*3600))
     @method_decorator(logging_check)
-    def get(request):
-        user = request.user
-        cache_key = 'user:%s' % user.id
+    def get(self,request):
+        user = request.myuser
         goods = Cart.objects.filter(user_id=user.id)
-        if r.exists(cache_key):
-            commoditys = r.hgetall(cache_key)
-            commoditys_dict = {m.decode(): v.decode() for m, v in commoditys.items()}
-            return JsonResponse({'code': 200, 'data': commoditys_dict})
-        else:
-            for commodity in goods:
-                good = {}
-                good['name'] = CommodityInfo.objects.get(id=commodity.commoditysid).Name
-                good['size'] = CommodityInfo.objects.get(id=commodity.commoditysid).Size
-                good['price'] = CommodityInfo.objects.get(id=commodity.commoditysid).Price
-                good['count'] = Cart.objects.get(user_id=user.id,
-                                                 commoditysid=commodity.commoditysid).count
-                good['total'] = int(good['price']) + int(good['count'])
-                r.hmset(cache_key, mapping=good)
-                return JsonResponse({'code': 200, 'data': good})
+        for commodity in goods:
+            good = {}
+            good['name'] = CommodityInfo.objects.get(id=commodity.commoditysid).Name
+            good['size'] = CommodityInfo.objects.get(id=commodity.commoditysid).Size
+            good['price'] = CommodityInfo.objects.get(id=commodity.commoditysid).Price
+            good['count'] = Cart.objects.get(user_id=user.id,
+                                             commoditysid=commodity.commoditysid).count
+            good['total'] = int(good['price']) + int(good['count'])
+            return JsonResponse({'code': 200, 'data': good})
 
 
     @method_decorator(logging_check)
-    def post(request):
-        user = request.user
+    def post(self,request):
+        user = request.myuser
         cache_key = 'user:%s' % user.id
         json_str = request.body
         json_obj = json.loads(json_str)
@@ -60,8 +53,8 @@ class CartView(View):
 
 
     @method_decorator(logging_check)
-    def delete(request):
-        user = request.user
+    def delete(self,request):
+        user = request.myuser
         cid = request.POST.get('cid')
         cache_key = 'user:%s' % user.id
         try:
@@ -75,8 +68,8 @@ class CartView(View):
 
 
     @method_decorator(logging_check)
-    def put(request):
-        user = request.user
+    def put(self,request):
+        user = request.myuser
         cache_key = 'user:%s' % user.id
         json_str = request.body
         json_obj = json.loads(json_str)
