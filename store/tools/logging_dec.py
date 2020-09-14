@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.conf import settings
 import jwt
-from user.models import UserAccount
+from ..user.models import UserAccount
 
 
 def logging_check(func):

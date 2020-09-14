@@ -4,5 +4,5 @@ from django.urls import path
 from cart import views
 
 urlpatterns = [
-    path('index', views.cartview),
+    path('index', views.CartView.as_view()),
 ]

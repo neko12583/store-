@@ -1,79 +1,91 @@
-import redis
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+import json
 
+import redis
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.utils.decorators import method_decorator
+from django.views import View
+
+from tools.logging_dec import logging_check
 from cart.models import Cart
+from commodity.models import CommodityInfo
 
 # Create your views here.
 r = redis.Redis(host='*', port=6379, password='123456', db=1)
 
-
-def cartview(request):
-    user_id = request.POST.get('uid')
-    cache_key = 'user:%s' % user_id
-    commoditys = Cart.objects.filter(user_id=user_id)
-    if r.exists(cache_key):
-        commoditys = r.hgetall(cache_key)
-        commoditys_dict = {m.decode(): v.decode() for m, v in commoditys.items()}
-        return render(request, 'cart/index', locals())
-    else:
-        commoditys_dict = {}
-        for n in commoditys:
-            commoditys_dict[n.commoditysid] = n.count
-        return render(request, 'cart/index', locals())
-
-
-def addcart(request):
-    user_id = request.POST.get('uid')
-    cache_key = 'user:%s' % user_id
-    cid = request.POST.get('cid')
-    count = request.POST.get('count')
-    try:
-        commodity = Cart.objects.get(user_id=user_id, commoditysid=cid)
-    except Exception as e:
-        print(e)
-        Cart.objects.create(user_id=user_id, commoditysid=cid)
-    else:
-        commodity.count += 1
-        commodity.save()
-    if r.exists(cache_key):
-        if r.hexists(cache_key, cid):
-            r.hincrby(cache_key, cid, count)
+class CartView(View):
+    @method_decorator(logging_check)
+    def get(request):
+        user = request.user
+        cache_key = 'user:%s' % user.id
+        commoditys = Cart.objects.filter(user_id=user.id)
+        if r.exists(cache_key):
+            commoditys = r.hgetall(cache_key)
+            commoditys_dict = {m.decode(): v.decode() for m, v in commoditys.items()}
+            return JsonResponse({'code': 200, 'data': commoditys_dict})
         else:
-            r.hset(cache_key, cid, count)
-            r.expire(cache_key, 60 * 60 * 12)
-    else:
-        r.hset(cache_key, cid, count)
-        r.expire(cache_key, 60 * 60 * 12)
+            for commodity in commoditys:
+                good = {}
+                good['name'] = CommodityInfo.objects.get(id=commodity.commoditysid).Name
+                good['size'] = CommodityInfo.objects.get(id=commodity.commoditysid).Size
+                good['price'] = CommodityInfo.objects.get(id=commodity.commoditysid).Price
+                good['count'] = Cart.objects.get(user_id=user.id,
+                                                 commoditysid=commodity.commoditysid).count
+                good['total'] = int(good['price']) + int(good['count'])
+                r.hmset(cache_key, mapping=good)
+                return JsonResponse({'code': 200, 'data': good})
 
-    return HttpResponseRedirect(request.path)
 
-
-def deletecart(request):
-    user_id = request.POST.get('uid')
-    cid = request.POST.get('cid')
-    cache_key = 'user:%s' % user_id
-    try:
-        commodity = Cart.objects.get(user_id=user_id, commoditysid=cid)
-        commodity.delete()
+    @logging_check
+    def post(request):
+        user = request.user
+        cache_key = 'user:%s' % user.id
+        json_str = request.body
+        json_obj = json.loads(json_str)
+        cid = json_obj['cid']
+        count = json_obj['count']
+        if count == 0:
+            return JsonResponse({'code': 10400, 'error': '数量不能为零'})
+        try:
+            commodity = Cart.objects.get(user_id=user.id, commoditysid=cid)
+        except Exception as e:
+            print(e)
+            Cart.objects.create(user_id=user.id, commoditysid=cid)
+        else:
+            commodity.count += 1
+            commodity.save()
         r.delete(cache_key)
-    except Exception as e:
-        print(e)
-        return HttpResponse('delete error')
-    return HttpResponseRedirect('cart/index')
+        return JsonResponse({'code': 200, 'success': '加车成功'})
 
 
-def updatecart(request):
-    user_id = request.POST.get('uid')
-    cache_key = 'user:%s' % user_id
-    cid = request.POST.get('cid')
-    count = request.POST.get('count')
-    try:
-        commodity = Cart.objects.get(user_id=user_id, commoditysid=cid)
-    except Exception as e:
-        print(e)
-        return HttpResponse('error')
-    commodity.count = count
-    commodity.save()
-    r.delete(cache_key)
-    return HttpResponseRedirect('cart/index')
+    @logging_check
+    def delete(request):
+        user = request.user
+        cid = request.POST.get('cid')
+        cache_key = 'user:%s' % user.id
+        try:
+            commodity = Cart.objects.get(user_id=user.id, commoditysid=cid)
+            commodity.delete()
+            r.delete(cache_key)
+        except Exception as e:
+            print(e)
+            return JsonResponse({'code': 10404, 'error': '删除失败'})
+        return JsonResponse({'code': 200})
+
+
+    @logging_check
+    def put(request):
+        user = request.user
+        cache_key = 'user:%s' % user.id
+        json_str = request.body
+        json_obj = json.loads(json_str)
+        cid = json_obj['cid']
+        count = json_obj['count']
+        try:
+            commodity = Cart.objects.get(user_id=user.id, commoditysid=cid)
+        except Exception as e:
+            print(e)
+            return JsonResponse({'code': 10404, 'error': '删除失败'})
+        commodity.count = count
+        commodity.save()
+        r.delete(cache_key)
+        return JsonResponse({'code': 200})
