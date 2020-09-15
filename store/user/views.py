@@ -59,11 +59,12 @@ def login_view(request):
     # 证明没缓存，得重新登录
     return render(request, 'user/login.html')
 
+
 # 正式登录
 def login_ajax(request):
     username = request.GET['username']
     password = request.GET['password']
-    print(username,password)
+    print(username, password)
     try:
         old_user = UserAccount.objects.get(username=username)  # 使用get没获取到　则会报错
     except Exception as e:
@@ -86,7 +87,6 @@ def login_ajax(request):
         resp.set_cookie("uid", old_user.id, 3600 * 24 * 7)
         resp.set_cookie("username", old_user.username, 3600 * 24 * 7)
     return resp
-
 
 
 # 注销
@@ -142,10 +142,8 @@ def edit_data(request):
     return render(request, 'user/login.html')
 
 
-
-
 def set_phone(request):
-    return render(request,'user/set_phone.html')
+    return render(request, 'user/set_phone.html')
 
 
 def save_phone(request):
@@ -162,35 +160,34 @@ def save_phone(request):
         result = {'code': 10113, 'error': '输入的验证码有误'}
         return JsonResponse(result)
 
+
 def sms_view(request):
     # 获取　{'phone':phone}
     json_str = request.body
-    print(type(json_str))    # <class 'bytes'>
+    print(type(json_str))  # <class 'bytes'>
     json_obj = json.loads(json_str.decode())
-    print(type(json_obj))   # <class 'dict'>
+    print(type(json_obj))  # <class 'dict'>
     phone = json_obj['phone']
     print(phone)
-    cache_key = 'sms_%s'%phone
+    cache_key = 'sms_%s' % phone
     # 查找缓存中有没有这个cache_key,防止用户多次点击按钮重复发送验证码
     old_code = cache.get(cache_key)
     # 如果已存在
     if old_code:
-        result = {'code':10112,'error':'请勿重复发送'}
+        result = {'code': 10112, 'error': '请勿重复发送'}
         return JsonResponse(result)
-    code = random.randint(1000,9999)
+    code = random.randint(1000, 9999)
     print(code)
     # 保存到redis缓存中
-    cache.set(cache_key,code,65)
+    cache.set(cache_key, code, 65)
     a = cache.get(cache_key)
-    print(a,'11111111111111111111111111111111111')
-    #　同步发送
+    print(a, '11111111111111111111111111111111111')
+    # 　同步发送
     # x = YunTongXun(settings.SMS_ACCOUNT_ID,settings.SMS_ACCOUNT_TOKEN,settings.SMS_APP_ID,settings.SMS_TEMPLATE_ID)
     # res = x.run('13713788072',code)    # 向指定手机发送指定验证码
     # print(res,'2222222222222')  # 查看是否６个０　　６个０表示发送成功
 
     # 异步发送
-    send_sms.delay(phone,code)
+    send_sms.delay(phone, code)
 
-    return JsonResponse({'code':200,'error':'出错啦'})
-
-
+    return JsonResponse({'code': 200, 'error': '出错啦'})
