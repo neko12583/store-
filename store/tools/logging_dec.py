@@ -3,8 +3,6 @@ from django.conf import settings
 from django.shortcuts import render
 
 
-
-
 # 装饰器
 def logging_check(func):
     def wrap(request, *args, **kwargs):

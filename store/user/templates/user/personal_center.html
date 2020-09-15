@@ -13,24 +13,32 @@
         a{
             margin-right: 30px;
         }
-    
+        #td_1{
+            width: 80px;
+            height: 80px;
+            /* border: solid 1px; */
+            border-radius: 50% ;
+            margin-left: 15px;
+        }
+        
     </style>
 </head>
 <body>
     <div id="per_d1">
             <table>
                     <tr>
-                        <td style="width: 100px;">
-                            <img src="" alt="">(用户头像)
+                        <td >
+                            <img id="td_1" src="../../static/picture/fz.jpg">
                         </td>
-                        <td>
+                        <td >
                             <p>欢迎回来!</p>
+                            <p>{{ username }}</p>
                             <p>{{ 姓名 }}</p>
                             <br><br>
                             <a href="">修改密码</a>
                             <a href="/user/set_phone">绑定手机</a>
-                            <br>
-                            <a href="">收货地址</a>
+                            <br> <br>
+                            <a href="">我的订单</a>
                             <a href="/user/edit_data">编辑资料</a>
                         </td>
                     </tr>

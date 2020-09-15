@@ -101,7 +101,8 @@ def personal_center(request):
     uid = request.session.get('uid')
     username = request.session.get('username')
     print(uid,username)
-    return render(request, 'user/personal_center.html')
+    return render(request, 'user/personal_center.html',locals())
+
 
 
 # 编辑资料
@@ -113,7 +114,12 @@ def edit_data(request):
 def set_phone(request):
     return render(request, 'user/set_phone.html')
 
+# 编辑页面，绑定手机
+def set_phone_ajax(request):
+    pass
 
+
+# 登录页面，手机登录
 def save_phone(request):
     json_str = request.body
     json_obj = json.loads(json_str.decode())
@@ -126,10 +132,10 @@ def save_phone(request):
         result = {'code': 200}
         # 先检查 该手机用户是否第一次进入我们的网站，如果第一次登录则存下来,外键可以暂时为空
         try:
-            # 如果没报错，说明获取到了，说明这个用户之前已经注册过
+            # 如果没报错，说明获取到了，说明这个用户之前已经通过手机注册过
             phone_user = UserDetails.objects.get(mobile=phone)
         except Exception as e:
-            # 该用户手机第一次,所以插入表中
+            # 该用户手机第一次登录,所以插入表中
             username = '手机用户{}'.format(phone)
             password = phone
             # hash算法加密
@@ -146,6 +152,8 @@ def save_phone(request):
             request.session['username'] = username
             print('+1'*100)
             return JsonResponse({'code':200})
+
+        # 微博注册或者普通注册
         print('*' * 100)
         user = UserAccount.objects.get(id=phone_user.uid_id)
         print('+3' * 100)
@@ -239,7 +247,6 @@ def weibo_users(request):
     try:
         # 如果没报错，说明获取到了，说明这个用户之前已经注册过
         weibo_user = WeiboProfile.objects.get(w_uid=weibo_uid)
-        user = weibo_user.user_profile_id
     except Exception as e:
         # 该用户第一次登录,所以插入表中
         username = '微博用户_{}'.format(weibo_uid)
@@ -258,7 +265,8 @@ def weibo_users(request):
         request.session['username'] = username
         return render(request, 'user/callback.html', locals())
     print('*' * 100)
-    # user = UserAccount.objects.get(id=uid)
-    request.session['uid'] = user.id
+    uid = weibo_user.user_profile_id
+    user = UserAccount.objects.get(id=uid)
+    request.session['uid'] = uid
     request.session['username'] = user.username
     return render(request, 'user/callback.html',locals())
