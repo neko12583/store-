@@ -208,9 +208,15 @@ def weibo_authorization(request):
     }
 
     weibo_url = 'https://api.weibo.com/oauth2/authorize?'
+    # https://api.weibo.com/oauth2/authorize?response_type=code&client_id=2536356629&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Fuser%2Fweibo%2Fusers
     # a = {'name':'jay','age':18}
     # urlencode(a) 可以把字典类型的数据转换成查询字符串  'name=jay&age=18'
     url = weibo_url + urlencode(params)
+    # 请求不合法，，检查params ksy和参数
+    # 重定向地址不一致
+    print(url)
+    print('8'*100)
+
     return JsonResponse({'code': 200, 'oauth_url': url})
 
 

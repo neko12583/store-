@@ -41,8 +41,6 @@ urlpatterns = [
     # 127.0.0.1:8000/user/weibo/users
     path('weibo/users',views.weibo_users),
 
-
-
 ]
 
 
