@@ -100,6 +100,12 @@ def logout_view(request):
 def personal_center(request):
     uid = request.session.get('uid')
     username = request.session.get('username')
+    try:
+        d_user = UserDetails.objects.get(uid_id=uid)
+        nickname = d_user.nickname
+    except:
+        nickname =username
+        return render(request, 'user/personal_center.html', locals())
     print(uid,username)
     return render(request, 'user/personal_center.html',locals())
 
@@ -109,6 +115,60 @@ def personal_center(request):
 @logging_check
 def edit_data(request):
     return render(request, 'user/edit_data.html')
+
+
+def edit_data_ajax(request):
+    json_str = request.body
+    json_obj = json.loads(json_str.decode())
+    print(json_obj)
+    realname = json_obj['realname']
+    nickname = json_obj['nickname']
+    sex = json_obj['sex']
+    email = json_obj['email']
+    wechat = json_obj['wechat']
+    year = json_obj['year']
+    month = json_obj['month']
+    day = json_obj['day']
+    address = json_obj['address']
+    print(realname,nickname,sex,email,wechat,year,month,day,address)
+    if not realname:
+        return JsonResponse({'code':10221,'error':'真实姓名不能为空'})
+    if not nickname:
+        return JsonResponse({'code':10221,'error':'昵称不能为空'})
+    if not email:
+        return JsonResponse({'code':10221,'error':'邮箱不能为空'})
+    if not wechat:
+        return JsonResponse({'code':10221,'error':'微信号不能为空'})
+    if not year or not month or not day:
+        return JsonResponse({'code':10221,'error':'生日不能为空'})
+    if not address:
+        return JsonResponse({'code':10221,'error':'收货地址不能为空'})
+
+    birthday = str(year)+'-'+str(month)+'-'+str(day)
+    uid = request.session.get('uid')
+    print(type(uid))
+    user = UserAccount.objects.get(id=uid)
+    print(uid,'8'*100)
+    sex = int(sex)
+    try:
+        d_user = UserDetails.objects.get(uid_id=uid)
+    except Exception as e:
+        print('用户之前是普通注册，非手机号和微博注册1',e)
+        # 插入信息
+        d_user1 = UserDetails.objects.create(gender=sex,realname=realname,
+                                   wechat=wechat,email=email,nickname=nickname,mobile="",birthdate=birthday,address=address,uid_id=uid)
+        print('3'*100)
+        return JsonResponse({'code': 200})
+    print('4'*100)
+    d_user.gender = sex
+    d_user.realname = realname
+    d_user.wechat = wechat
+    d_user.email = email
+    d_user.nickname = nickname
+    d_user.birthdate = birthday
+    d_user.address = address
+    d_user.save()
+    return JsonResponse({'code':200})
 
 
 def set_phone(request):
@@ -154,12 +214,15 @@ def save_phone(request):
             return JsonResponse({'code':200})
 
         # 微博注册或者普通注册
-        print('*' * 100)
+        print('9' * 100)
+        print("phone_useruid_id-----",phone_user.uid_id)
         user = UserAccount.objects.get(id=phone_user.uid_id)
+
         print('+3' * 100)
-        request.session['uid'] = phone_user.uid
+        request.session['uid'] = user.id
         request.session['username'] = user.username
-        print('+2' * 100)
+        print(user.id,user.username)
+        print('+6' * 100)
         return JsonResponse({'code':200})
 
     else:
@@ -276,3 +339,4 @@ def weibo_users(request):
     request.session['uid'] = uid
     request.session['username'] = user.username
     return render(request, 'user/callback.html',locals())
+
