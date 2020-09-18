@@ -43,9 +43,9 @@ def register_ajax(request):
         return HttpResponse('用户已存在')
     return HttpResponse("注册成功")
 
+
 @logging_check
 def login_view(request):
-
     return HttpResponse('您已登录!')
 
 
@@ -103,12 +103,13 @@ def personal_center(request):
     try:
         d_user = UserDetails.objects.get(uid_id=uid)
         nickname = d_user.nickname
+        if nickname == None:
+            nickname = username
     except:
-        nickname =username
+        nickname = username
         return render(request, 'user/personal_center.html', locals())
-    print(uid,username)
-    return render(request, 'user/personal_center.html',locals())
-
+    print(uid, username)
+    return render(request, 'user/personal_center.html', locals())
 
 
 # 编辑资料
@@ -130,36 +131,37 @@ def edit_data_ajax(request):
     month = json_obj['month']
     day = json_obj['day']
     address = json_obj['address']
-    print(realname,nickname,sex,email,wechat,year,month,day,address)
+    print(realname, nickname, sex, email, wechat, year, month, day, address)
     if not realname:
-        return JsonResponse({'code':10221,'error':'真实姓名不能为空'})
+        return JsonResponse({'code': 10221, 'error': '真实姓名不能为空'})
     if not nickname:
-        return JsonResponse({'code':10221,'error':'昵称不能为空'})
+        return JsonResponse({'code': 10221, 'error': '昵称不能为空'})
     if not email:
-        return JsonResponse({'code':10221,'error':'邮箱不能为空'})
+        return JsonResponse({'code': 10221, 'error': '邮箱不能为空'})
     if not wechat:
-        return JsonResponse({'code':10221,'error':'微信号不能为空'})
+        return JsonResponse({'code': 10221, 'error': '微信号不能为空'})
     if not year or not month or not day:
-        return JsonResponse({'code':10221,'error':'生日不能为空'})
+        return JsonResponse({'code': 10221, 'error': '生日不能为空'})
     if not address:
-        return JsonResponse({'code':10221,'error':'收货地址不能为空'})
+        return JsonResponse({'code': 10221, 'error': '收货地址不能为空'})
 
-    birthday = str(year)+'-'+str(month)+'-'+str(day)
+    birthday = str(year) + '-' + str(month) + '-' + str(day)
     uid = request.session.get('uid')
     print(type(uid))
     user = UserAccount.objects.get(id=uid)
-    print(uid,'8'*100)
+    print(uid, '8' * 100)
     sex = int(sex)
     try:
         d_user = UserDetails.objects.get(uid_id=uid)
     except Exception as e:
-        print('用户之前是普通注册，非手机号和微博注册1',e)
+        print('用户之前是普通注册，非手机号和微博注册1', e)
         # 插入信息
-        d_user1 = UserDetails.objects.create(gender=sex,realname=realname,
-                                   wechat=wechat,email=email,nickname=nickname,mobile="",birthdate=birthday,address=address,uid_id=uid)
-        print('3'*100)
+        d_user1 = UserDetails.objects.create(gender=sex, realname=realname,
+                                             wechat=wechat, email=email, nickname=nickname, mobile="",
+                                             birthdate=birthday, address=address, uid_id=uid)
+        print('3' * 100)
         return JsonResponse({'code': 200})
-    print('4'*100)
+    print('4' * 100)
     d_user.gender = sex
     d_user.realname = realname
     d_user.wechat = wechat
@@ -168,15 +170,41 @@ def edit_data_ajax(request):
     d_user.birthdate = birthday
     d_user.address = address
     d_user.save()
-    return JsonResponse({'code':200})
+    return JsonResponse({'code': 200})
 
 
 def set_phone(request):
     return render(request, 'user/set_phone.html')
 
+
 # 编辑页面，绑定手机
 def set_phone_ajax(request):
-    pass
+    json_str = request.body
+    json_obj = json.loads(json_str.decode())
+    code = json_obj['code']
+    phone = json_obj['phone']
+    print('*' * 100, code, phone)
+    cache_key = 'sms_%s' % phone
+    old_code = str(cache.get(cache_key))
+    if code == old_code:
+        uid = request.session.get('uid')
+        username = request.session.get('username')
+        try:
+            # 　如果获取到了，说明这个id已经有在这个表有一条数据，只需要修改phone
+            d_user = UserDetails.objects.get(uid_id=uid)
+        except:
+            print('6'*100)
+            UserDetails.objects.create(mobile=phone,uid_id=uid)
+            print('7' * 100)
+            return JsonResponse({'code': 200})
+        print(uid, username)
+        d_user.mobile = phone
+        d_user.save()  # 修改了手机号需要保存一下
+        return JsonResponse({'code': 200})
+
+    else:
+        result = {'code': 10113, 'error': '输入的验证码有误'}
+        return JsonResponse(result)
 
 
 # 登录页面，手机登录
@@ -185,11 +213,10 @@ def save_phone(request):
     json_obj = json.loads(json_str.decode())
     code = json_obj['code']
     phone = json_obj['phone']
-    print('*'*100,code,phone)
+    print('*' * 100, code, phone)
     cache_key = 'sms_%s' % phone
     old_code = str(cache.get(cache_key))
     if code == old_code:
-        result = {'code': 200}
         # 先检查 该手机用户是否第一次进入我们的网站，如果第一次登录则存下来,外键可以暂时为空
         try:
             # 如果没报错，说明获取到了，说明这个用户之前已经通过手机注册过
@@ -204,26 +231,26 @@ def save_phone(request):
             password_h = md5.hexdigest()  # 16进制加密     # password_h为加密之后的密码
             user = UserAccount.objects.create(username=username, password=password_h)
             print('-' * 100)
-            phone_user = UserDetails.objects.create(mobile=phone,uid=user)
+            phone_user = UserDetails.objects.create(mobile=phone, uid=user)
             print('+' * 100)
             uid = user.id
             # 在session保存登录状态
             request.session['uid'] = uid
             request.session['username'] = username
-            print('+1'*100)
-            return JsonResponse({'code':200})
+            print('+1' * 100)
+            return JsonResponse({'code': 200})
 
         # 微博注册或者普通注册
         print('9' * 100)
-        print("phone_useruid_id-----",phone_user.uid_id)
+        print("phone_useruid_id-----", phone_user.uid_id)
         user = UserAccount.objects.get(id=phone_user.uid_id)
 
         print('+3' * 100)
         request.session['uid'] = user.id
         request.session['username'] = user.username
-        print(user.id,user.username)
+        print(user.id, user.username)
         print('+6' * 100)
-        return JsonResponse({'code':200})
+        return JsonResponse({'code': 200})
 
     else:
         result = {'code': 10113, 'error': '输入的验证码有误'}
@@ -237,11 +264,11 @@ def sms_view(request):
     json_obj = json.loads(json_str.decode())
     print(type(json_obj))  # <class 'dict'>
     phone = json_obj['phone']
-    print(phone,'*'*100)
+    print(phone, '*' * 100)
     cache_key = 'sms_%s' % phone
     # 查找缓存中有没有这个cache_key,防止用户多次点击按钮重复发送验证码
     old_code = cache.get(cache_key)
-    print('+'*100)
+    print('+' * 100)
     # 如果已存在
     if old_code:
         result = {'code': 10112, 'error': '请勿重复发送'}
@@ -278,34 +305,34 @@ def weibo_authorization(request):
     # 请求不合法，，检查params ksy和参数
     # 重定向地址不一致
     print(url)
-    print('8'*100)
+    print('8' * 100)
 
     return JsonResponse({'code': 200, 'oauth_url': url})
 
 
 def weibo_users(request):
     code = request.GET.get('code')
-    print('这是从微博带回来的授权码code',code)
+    print('这是从微博带回来的授权码code', code)
     # 给微博服务器发请求  用授权码交换用户的token
     token_url = 'https://api.weibo.com/oauth2/access_token'
     req_data = {
         'client_id': settings.WEIBO_CLIENT_ID,
         'client_secret': settings.WEIBO_CLIENT_SECRET,
-        'grant_type': 'authorization_code',       # 固定写法
+        'grant_type': 'authorization_code',  # 固定写法
         'code': code,
         'redirect_uri': settings.WEIBO_REDIRECT_URI  # 客户授权成功后跳转到哪个url
     }
-    response = requests.post(token_url,data=req_data)
+    response = requests.post(token_url, data=req_data)
     # 如果响应码是200
     if response.status_code == 200:
         res_data = json.loads(response.text)
     else:
-        print('change code error ',response.status_code)
+        print('change code error ', response.status_code)
         return HttpResponse('微博错误1')
     if res_data.get('error'):
-        print('change error',res_data.get('error'))
+        print('change error', res_data.get('error'))
         return HttpResponse('微博错误2')
-    print(res_data)   # expires_in  代表这个token的过期时间
+    print(res_data)  # expires_in  代表这个token的过期时间
     # {'access_token': '2.00Hl1zYCtNSelCf6c9dd91d22fKjlD', 'remind_in': '157679999',
     # 'expires_in': 157679999, 'uid': '2349278897', 'isRealName': 'true'}
 
@@ -324,10 +351,10 @@ def weibo_users(request):
         md5 = hashlib.md5()  # 拿到ｍd５对象
         md5.update(password.encode())  # 把密码转成hash密码  参数只能传二进制数据
         password_h = md5.hexdigest()  # 16进制加密     # password_h为加密之后的密码
-        user = UserAccount.objects.create(username=username,password=password_h)
+        user = UserAccount.objects.create(username=username, password=password_h)
         print('-' * 100)
-        WeiboProfile.objects.create(access_token=access_token,w_uid=weibo_uid,user_profile=user)
-        print('+'*100)
+        WeiboProfile.objects.create(access_token=access_token, w_uid=weibo_uid, user_profile=user)
+        print('+' * 100)
         uid = user.id
         # 在session保存登录状态
         request.session['uid'] = user.id
@@ -338,5 +365,4 @@ def weibo_users(request):
     user = UserAccount.objects.get(id=uid)
     request.session['uid'] = uid
     request.session['username'] = user.username
-    return render(request, 'user/callback.html',locals())
-
+    return render(request, 'user/callback.html', locals())
