@@ -23,57 +23,100 @@
             margin-right: 20px;
         }
     </style>
-    
+<script src="../../static/js/jquery-1.11.3.js"></script>
 </head>
 <body>
     <h3>个人信息</h3>
     <hr>
-    <form method="POST" action="/user/edit_data">
+        <b id="show" style="margin-left: 100px; color: #f55a19"></b>
         <table>
             <tr>
                 <td>*真实姓名：</td>
-                <td><input placeholder="请输入真实姓名" type="text" name="username"></td>
+                <td><input placeholder="请输入真实姓名" type="text" id="realname" name="realname"></td>
                 <td></td>
             </tr>
             <tr>
                 <td>*昵称：</td>
-                <td><input placeholder="请输入昵称" type="text" name="nickname"></td>
+                <td><input placeholder="请输入昵称" type="text" id="nickname" name="nickname"></td>
                 <td>
-                    <input style="cursor: pointer;" type="radio" name="sex" value="1" checked />先生
-                    <input style="cursor: pointer;" type="radio" name="sex" value="2" />女士
+                <select style="width: 60px; height: 35px;" name="sex" id="sex">
+                        <option style="font-size: 10px;text-align: center;" value="1">先生</option>
+                        <option style="font-size: 10px;" value="2">女士</option>
+                </select>
                 </td>
             </tr>
-
             <tr>
                 <td>E-mail:</td>
-                <td><input placeholder="请输入邮箱" type="text" name="email"></td>
+                <td><input placeholder="请输入邮箱" type="text" id="email" name="email"></td>
                 <td><input type="checkbox" name="email_inform" />邮件通知生日福利</td>
             </tr>
             <tr>
                 <td>微信号:</td>
-                <td><input placeholder="请输入微信号" type="text" name="wechat"></td>
+                <td><input placeholder="请输入微信号" type="text" id="wechat" name="wechat"></td>
                 <td><input type="checkbox" name="wechat_inform" />加好友通知生日福利</td>
             </tr>
             <tr>
                 <td>*生日:</td>
                 <td colspan="2">
-                    <select style="cursor: pointer; height: 30px;" name="xl" id="xl">
-                        <option value="1">请选择</option>
-                        <option value="2">自己</option>
-                        <option value="3">父亲</option>
-                        <option value="4">母亲</option>
-                        <option value="5">爱人</option>
-                        <option value="6">子女</option>
-                    </select>
-
-                    <input placeholder="年" type="text" style="width: 50px">-
-                    <input placeholder="月" type="text" style="width: 50px">-
-                    <input placeholder="日" type="text" style="width: 50px">
+                    <input placeholder="年" type="text" id="year" style="width: 50px">-
+                    <input placeholder="月" type="text" id="month" style="width: 50px">-
+                    <input placeholder="日" type="text" id="day" style="width: 50px">
                 </td>
             </tr>
+            <tr>
+                <td>收货地址:</td>
+                <td colspan="2">
+                     <textarea id="address"></textarea>
+                </td>
+                
+            </tr>
         </table>
-        <input id="edit_in1" type="submit" value="修改并保存">
-    </form>
+        <input id="edit_in1"  value="修改并保存">
+
+<script>
+    
+        $('#edit_in1').click(function(){
+            var realname = $('#realname').val()
+            var nickname = $('#nickname').val()
+            var sex = $('#sex').val()
+            var email = $('#email').val()
+            var wechat = $('#wechat').val()
+            var year = $('#year').val()
+            var month = $('#month').val()
+            var day = $('#day').val()
+            var address = $('#address').val()
+            post_data = {'realname':realname,
+                        'nickname':nickname,
+                        'sex':sex,
+                        'email':email,
+                        'wechat':wechat,
+                        'year':year,
+                        'month':month,
+                        'day':day,
+                        'address':address
+                        }
+            $.ajax({
+                url:'/user/edit_data_ajax',
+                type:'post',
+                data:JSON.stringify(post_data),
+                contentType:'application/json',
+                dataType:'json',
+                success:function(res){
+                    if(res.code==200){
+                       alert('修改成功')
+                    }else{
+                        $('#show').html(res.error)
+                    }
+                }
+            })
+        })
+    
+
+</script>
+
+
+
+
 </body>
 
 

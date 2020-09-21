@@ -25,8 +25,15 @@ urlpatterns = [
     # 127.0.0.1:8000/user/edit_data
     path('edit_data', views.edit_data),
 
+    # 127.0.0.1:8000/user/edit_data_ajax
+    path('edit_data_ajax', views.edit_data_ajax),
+
     # 127.0.0.1:8000/user/set_phone
-    path('set_phone', views.set_phone),
+
+    path('set_phone',views.set_phone),
+    # 127.0.0.1:8000/user/set_phone_ajax
+    path('set_phone_ajax',views.set_phone_ajax),
+
 
     # 127.0.0.1:8000/user/sms
     path('sms', views.sms_view),
@@ -41,6 +48,5 @@ urlpatterns = [
 
     # 127.0.0.1:8000/user/weibo/users
     path('weibo/users',views.weibo_users),
-
 
 ]

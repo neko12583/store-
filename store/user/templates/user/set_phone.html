@@ -85,7 +85,7 @@
             var post_data = {'code':code,'phone':phone};
             
             $.ajax({
-                url:'/user/save_phone',
+                url:'/user/set_phone_ajax',
                 type:'post',
                 data:JSON.stringify(post_data),
                 contentType:'application/json',
