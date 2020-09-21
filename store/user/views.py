@@ -20,6 +20,7 @@ def register(request):
 
 # 注册
 def register_ajax(request):
+    print('*'*10)
     username = request.GET['username']
     password_1 = request.GET['password_1']
     password_2 = request.GET['password_2']
@@ -35,19 +36,21 @@ def register_ajax(request):
     md5 = hashlib.md5()  # 拿到ｍd５对象
     md5.update(password_1.encode())  # 把密码转成hash密码  参数只能传二进制数据
     password_h = md5.hexdigest()  # 16进制加密     # password_h为加密之后的密码
+    print('/' * 10)
+    print(password_h)
 
     try:  # 防止上面查的时候该用户名没有注册，到了这一步正巧有人抢先注册了  因为username字段设置了unique=True唯一性，所以不能重复
         user = UserAccount.objects.create(username=username, password=password_h)
+        print(user)
     except Exception as e:
         print('create error is %s' % e)
         return HttpResponse('用户已存在')
     return HttpResponse("注册成功")
 
+
 @logging_check
 def login_view(request):
-
     return HttpResponse('您已登录!')
-
 
 
 # 正式登录
@@ -76,7 +79,19 @@ def login_ajax(request):
     if 'remember' in request.POST:  # 用户勾选了记住用户名点提交，提交过来的数据里才会有{remember:on}
         resp.set_cookie("uid", old_user.id, 3600 * 24 * 7)
         resp.set_cookie("username", old_user.username, 3600 * 24 * 7)
+    # else:
+    #     resp.set_cookie("uid", old_user.id)
+    #     resp.set_cookie("username", old_user.username)
     return resp
+
+# 首页验证登录状态
+def check_session(request):
+    if 'username' in request.session or 'uid' in request.session:
+        data = {"code": 200}
+        return JsonResponse(data)
+    else:
+        data = {"code": 404}
+    return JsonResponse(data)
 
 
 # 注销
@@ -86,14 +101,14 @@ def logout_view(request):
         del request.session['username']
     if 'uid' in request.session:
         del request.session['uid']
-
+    
     # 删除cookies
-    resp = HttpResponse("已注销")
-    if 'username' in request.COOKIES:
-        resp.delete_cookie('username')
-    if 'uid' in request.COOKIES:
-        resp.delete_cookie('uid')
-    return resp
+    # if 'username' in request.COOKIES:
+    #     resp.delete_cookie('username')
+    # if 'uid' in request.COOKIES:
+    #     resp.delete_cookie('uid')
+    # return render(request, 'index.html')
+    return HttpResponseRedirect('/')
 
 
 # 个人中心
@@ -101,7 +116,7 @@ def logout_view(request):
 def personal_center(request):
     uid = request.session.get('uid')
     username = request.session.get('username')
-    print(uid,username)
+    print(uid, username)
     return render(request, 'user/personal_center.html')
 
 
@@ -133,7 +148,7 @@ def save_phone(request):
     json_obj = json.loads(json_str.decode())
     code = json_obj['code']
     phone = json_obj['phone']
-    print('*'*100,code,phone)
+    print('*' * 100, code, phone)
     cache_key = 'sms_%s' % phone
     old_code = str(cache.get(cache_key))
     if code == old_code:
@@ -152,21 +167,21 @@ def save_phone(request):
             password_h = md5.hexdigest()  # 16进制加密     # password_h为加密之后的密码
             user = UserAccount.objects.create(username=username, password=password_h)
             print('-' * 100)
-            phone_user = UserDetails.objects.create(mobile=phone,uid=user)
+            phone_user = UserDetails.objects.create(mobile=phone, uid=user)
             print('+' * 100)
             uid = user.id
             # 在session保存登录状态
             request.session['uid'] = uid
             request.session['username'] = username
-            print('+1'*100)
-            return JsonResponse({'code':200})
+            print('+1' * 100)
+            return JsonResponse({'code': 200})
         print('*' * 100)
         user = UserAccount.objects.get(id=phone_user.uid_id)
         print('+3' * 100)
         request.session['uid'] = phone_user.uid
         request.session['username'] = user.username
         print('+2' * 100)
-        return JsonResponse({'code':200})
+        return JsonResponse({'code': 200})
 
     else:
         result = {'code': 10113, 'error': '输入的验证码有误'}
@@ -183,12 +198,12 @@ def sms_view(request):
 
     print(phone)
 
-    print(phone,'*'*100)
+    print(phone, '*' * 100)
 
     cache_key = 'sms_%s' % phone
     # 查找缓存中有没有这个cache_key,防止用户多次点击按钮重复发送验证码
     old_code = cache.get(cache_key)
-    print('+'*100)
+    print('+' * 100)
     # 如果已存在
     if old_code:
         result = {'code': 10112, 'error': '请勿重复发送'}
@@ -227,27 +242,27 @@ def weibo_authorization(request):
 
 def weibo_users(request):
     code = request.GET.get('code')
-    print('这是从微博带回来的授权码code',code)
+    print('这是从微博带回来的授权码code', code)
     # 给微博服务器发请求  用授权码交换用户的token
     token_url = 'https://api.weibo.com/oauth2/access_token'
     req_data = {
         'client_id': settings.WEIBO_CLIENT_ID,
         'client_secret': settings.WEIBO_CLIENT_SECRET,
-        'grant_type': 'authorization_code',       # 固定写法
+        'grant_type': 'authorization_code',  # 固定写法
         'code': code,
         'redirect_uri': settings.WEIBO_REDIRECT_URI  # 客户授权成功后跳转到哪个url
     }
-    response = requests.post(token_url,data=req_data)
+    response = requests.post(token_url, data=req_data)
     # 如果响应码是200
     if response.status_code == 200:
         res_data = json.loads(response.text)
     else:
-        print('change code error ',response.status_code)
+        print('change code error ', response.status_code)
         return HttpResponse('微博错误1')
     if res_data.get('error'):
-        print('change error',res_data.get('error'))
+        print('change error', res_data.get('error'))
         return HttpResponse('微博错误2')
-    print(res_data)   # expires_in  代表这个token的过期时间
+    print(res_data)  # expires_in  代表这个token的过期时间
     # {'access_token': '2.00Hl1zYCtNSelCf6c9dd91d22fKjlD', 'remind_in': '157679999',
     # 'expires_in': 157679999, 'uid': '2349278897', 'isRealName': 'true'}
 
@@ -267,10 +282,10 @@ def weibo_users(request):
         md5 = hashlib.md5()  # 拿到ｍd５对象
         md5.update(password.encode())  # 把密码转成hash密码  参数只能传二进制数据
         password_h = md5.hexdigest()  # 16进制加密     # password_h为加密之后的密码
-        user = UserAccount.objects.create(username=username,password=password_h)
+        user = UserAccount.objects.create(username=username, password=password_h)
         print('-' * 100)
-        WeiboProfile.objects.create(access_token=access_token,w_uid=weibo_uid,user_profile=user)
-        print('+'*100)
+        WeiboProfile.objects.create(access_token=access_token, w_uid=weibo_uid, user_profile=user)
+        print('+' * 100)
         uid = user.id
         # 在session保存登录状态
         request.session['uid'] = user.id
@@ -280,4 +295,4 @@ def weibo_users(request):
     # user = UserAccount.objects.get(id=uid)
     request.session['uid'] = user.id
     request.session['username'] = user.username
-    return render(request, 'user/callback.html',locals())
+    return render(request, 'user/callback.html', locals())

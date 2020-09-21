@@ -1,0 +1,23 @@
+insert into CommodityInfo (name,tips,info,price,imgurl) values ('wow，小棕熊', '费列罗冰淇淋口味蛋糕', '来自遥远冰川山脉的棕色小熊，Q萌可爱，冰凉顺滑，让小朋友们发出WOW般欢呼的喜悦。多重美味，入口即化，时刻品味熊熊凉爽，还有费列罗榛果藏在里面哦~', 198, '/static/commidity_pic/wow，小棕熊.jpg');
+insert into CommodityInfo (name,tips,info,price,imgurl) values ('彩虹独角兽', '芒果奶油口味', '当独角的小马奔跑在天际，那么彩虹就是它留下的足记。当彩虹在云间穿梭，留下的还有如梦似幻的甜蜜。翻糖云朵，巧克力冰淇淋甜筒，能实现愿望的纽扣，带上所有梦想能代表的一切，以梦为马，驰骋在路。', 198, '/static/commidity_pic/彩虹独角兽.jpg');
+insert into CommodityInfo (name,tips,info,price,imgurl) values ('梵星·如梦', '草莓慕斯巧克力口味蛋糕', '手绘梦幻的星空，以法芙娜白巧克力的柔滑与浓甜；星空下，棉花糖样软糯的蛋糕胚上，适合桑梅与草莓果茸的甜美之梦的诞生。', 198, '/static/commidity_pic/梵星·如梦.jpg');
+insert into CommodityInfo (name,tips,info,price,imgurl) values ('果篮', '白巧水果奶油，超满足', '经典水果蛋糕新花样，口感清新。6种+严选时令鲜果，有颜有料。加了一点点百利酒的薄层奶油，放大突出水果清甜。柔润细腻的海绵蛋糕，丝滑入喉。', 198, '/static/commidity_pic/果篮.jpg');
+insert into CommodityInfo (name,tips,info,price,imgurl) values ('开森汪汪', '酸奶慕斯蛋糕', '嫩黄的身影，小巧的耳朵，是在这场狂欢中最靓的那只！盛夏里人见人爱的明星水果，当然少不了荔枝&覆盆子！一层层荔枝果肉清甜喜人，还有桑莓的微酸，让你陶醉在酸甜的世界里，此时纵情跃下，迎接你的绝不是硬梆梆土地，唇齿所及是柔软香嫩开心果蛋糕胚。', 198, '/static/commidity_pic/开森汪汪.jpg');
+insert into CommodityInfo (name,tips,info,price,imgurl) values ('榴莲忘返', '榴莲控只叹相见恨晚', '泰国进口金枕，自然成熟，细腻柔滑，连不爱吃榴莲的人也会爱上。配以海绵蛋糕，鲜润滋味比单吃榴莲更高级。榴莲果肉与海绵蛋糕1：1，令榴莲控上瘾。', 198, '/static/commidity_pic/榴莲忘返.jpg');
+insert into CommodityInfo (name,tips,info,price,imgurl) values ('缪斯', '芒果优格蛋糕口味', '当甘甜芒果与酸奶相遇，一种独有清新就跃然舌尖上，轻柔婉转，一如众神之女缪斯，在宴会上翩翩起舞。而后是一点马斯卡彭的芝士浓郁，意大利的风情似乎卷起了西西里海岸的潮水，层叠往复，仿佛少女在旋转中，散发的淡淡芬芳。', 198, '/static/commidity_pic/缪斯.jpg');
+insert into CommodityInfo (name,tips,info,price,imgurl) values ('四季', '一次畅享4种人气经典', '四拼组合，满足众口难调，四味精心搭配，用口感传达四季。绿色春天，日本宇治抹茶，充满希望；黄色夏天，进口芒果芝士，热情洋溢；果满秋天，缤纷时令水果，收获满满；暗色冬天，香草法芙娜黑巧，沉淀甜蜜。', 198, '/static/commidity_pic/四季.jpg');
+insert into CommodityInfo (name,tips,info,price,imgurl) values ('提拉米苏', '咖啡轻乳酪，香滑甘浓', '松软细腻的意大利马斯卡彭芝士，混合了迷人的意式特浓咖啡，以及意大利杏仁利口酒和顶级可可粉。入口时，芝士的香滑、咖啡的苦涩、杏仁酒的甘浓，交织成馥郁难忘的专属味道，让人不由得想起那个恒古流传的誓言：带我走!', 198, '/static/commidity_pic/提拉米苏.jpg');
+insert into CommodityInfo (name,tips,info,price,imgurl) values ('柚の园', '柚香奶油口味蛋糕', '温柔的黄与白，缤纷的波波池，柔软的蛋糕气孔中散发的清新柚香，每一口，都能看到孩子纯真的笑脸，这是童年的味道，简单而纯粹的欢乐。柚子味道浓郁，咀嚼中有些许菠萝的微酸，不同层次的酸与甜，酸甜中和，却恰到好处，这是成长的味道，痛并快乐着。柚の园，记忆中的幼稚园，梦境般的泡泡童年。', 198, '/static/commidity_pic/柚の园.jpg');
+insert into CommodityInfo (name,tips,info,price,imgurl) values ('宇治微风', '大师作品；抹茶果茸清新', '采用1年产15天的日本京都宇治春茶用石磨研磨而成的抹茶，融合了黄梅果的清甜，口感细腻，茶香悠远，蛋糕底在普通蛋糕底基础上加入了扁桃仁粉颗粒，细细品尝，口齿中有颗粒的质感和扁桃仁的果仁香气', 198, '/static/commidity_pic/宇治微风.jpg');
+insert into CommodityInfo (name,tips,info,price,imgurl) values ('仲夏甜芒Mango', '芒果奶油蛋糕口味', '师傅向来对芒果蛋糕的开发是有自信心的。他对芒果与蛋糕的契合已有多年的研究，此次依然是他得心应手的作品，将芒果融入来自法国诺曼底的淡奶油中，与戚风蛋糕胚的柔软相融，每一口都是来自夏日芒果香。为了符合亚洲人的口味，蛋糕从糖分上已减去大半，保留着恰好诱人的轻甜，夹心的鲜切芒果与黄心奇异果，是奶油蛋糕中不可缺的水果灵魂。', 198, '/static/commidity_pic/仲夏甜芒Mango.jpg');
+
+
+
+insert into order_status (order_status) values ('待支付');
+insert into order_status (order_status) values ('待发货');
+insert into order_status (order_status) values ('待收货');
+insert into order_status (order_status) values ('已完成');
+insert into order_status (order_status) values ('已取消');
+
+
+

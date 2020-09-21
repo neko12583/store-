@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>生成订单</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/index.css">
+    <script src="/static/js/jquery.min.js"></script>
+</head>
+<body>
+<!--------------------------顶格-------------------------------->
+<div class="page-top">
+    <div class="container">
+        <!-------------------最上方左边--------------------------------->
+        <div class="top-lt">
+            <a href="">鹏城商城</a>
+        </div>
+        <!-----------------------最上方左边 end--------------------------------->
+        <!----------------------最上方右边------------------------------------>
+        <div class="top-gt">
+            <div class="login">
+                <a href="/user/login">登录</a>
+                <span>|</span>
+                <a href="/user/register">注册</a>
+                <span>|</span>
+                <a href="/order/get_order">历史订单</a>
+            </div>
+        </div>
+        <!--------------------------最上方右边 end-------------------------------->
+    </div>
+</div>
+
+<!-----------------------导航--------------------------------------->
+<div class="page-nav">
+    <div class="container">
+        <!---------------------------搜索框------------------------------------>
+        <!-- <div class="search">
+            <form action="" method="post">
+                <input type="text" name="" class="q">
+                <input type="submit" class="btn" name="" value="搜索">
+            </form>
+        </div> -->
+    </div>
+</div>
+
+<!----------------------内容区---------------------------------->
+<div class="path">
+    <a href="/">首页</a>
+    <span>&gt;</span>
+    <a href="/order/get_order">历史订单</a>
+</div>
+<table class="cart_table">
+    <tr>
+        <th>订单编号</th><th>订单总价</th><th>订单状态</th><th>下单时间</th>
+    </tr>
+    <tr>
+        <td>{{ order_num }}</td>
+        <td>{{ total_price }}</td>
+        <td>{{ order_status }}</td>
+        <td>{{ order_time }}</td>
+    </tr>
+    <tr>
+        <th>商品名称</th><th>磅数</th><th>商品数量</th><th>价格小计</th>
+    </tr>
+    {% for item in commodity_list %}
+    <tr>
+        <td>{{ item.commodity_name.name }}</td>
+        <td>{{ item.pound }}</td>
+        <td>{{ item.count }}</td>
+        <td>{{ item.price }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<!----------------------侧边栏---------------------------------->
+<ul class="page-slider">
+	<li>
+		<a href="/cart/get_html">
+		<img src="/static/imgs/car1.png" class="imgf">
+		<img src="/static/imgs/car2.png" class="imgf imgs">
+		<span>购物车</span>
+		</a>
+	</li>
+	<li>
+		<a href="">
+		<img src="/static/imgs/connect1.png" class="imgf">
+		<img src="/static/imgs/connect2.png" class="imgf imgs">
+		<span>联系客服</span>
+		</a>
+	</li>
+	<li>
+		<a href="">
+		<img src="/static/imgs/totop.png" class="imgf">
+		<img src="/static/imgs/totop_hover.png" class="imgf imgs">
+		<span>返回顶部</span>
+		</a>
+	</li>
+</ul>
+
+<!------------------------最低层--------------------------------->
+<div class="page_bottom">
+	<div>大鹏一日同风起，扶摇直上九万里.</div>
+	<br>
+    <h1>鹏城商店</h1>
+</div>
+
+<!-- js -->
+<script>
+    // 登录验证
+    $(function(){
+		var login = $('.login a')[0]
+		var register = $('.login a')[1]
+		$.ajax({
+			url: '/user/check_session',
+			type: 'get',
+			success:function(res){
+				if(res.code == 200){
+					login.text = "退出登录"
+					login.href = "/user/logout"
+					register.text = ""
+					register.herf = ""
+				}else{
+					login.text = "登录"
+					login.herf = "/user/login"
+					register.text = "注册"
+					register.herf = "/user/register"
+				}
+			}
+		})
+	})
+</script>
+</body>
+</html>

@@ -3,13 +3,9 @@
 <head>
 	<meta charset="utf-8">
 	<title>首页</title>
-	<!--处理样式-->
 	<link rel="stylesheet" type="text/css" href="/static/css/reset.css">
-	<!--公共的CSS-->
 	<link rel="stylesheet" type="text/css" href="/static/css/style.css">
-	<!--首页的CSS-->
 	<link rel="stylesheet" type="text/css" href="/static/css/index.css">
-	<!-- easyfader链接 -->
 	<link rel="stylesheet" href="/static/css/jquery.easyfader.css">
 	<script src="/static/js/jquery.min.js"></script>
 	<script src="/static/js/jquery.easyfader.min.js"></script>
@@ -25,65 +21,17 @@
 		<!-----------------------最上方左边 end--------------------------------->
 		<!----------------------最上方右边------------------------------------>
 		<div class="top-gt">
-			<div class="car-box">
-				<a href="" class="tit">购物车</a>
-				<div class="pop">
-					<p class="no-good">购物车还没有商品，赶紧选购吧！</p> 
-					<!-- <ul class="list">
-						<li>
-							<a href="" class="pic"><img src="img/mi10.png"></a>
-							<div class="txt">草莓蛋糕</div>
-							<div class="num">
-								<h4>500元 * 1</h4>
-							</div>
-						</li>
-					</ul> -->
-					<!-- <div class="total">
-						<div class="price">
-							<p>共1件商品</p>
-							<h3>500元</h3>
-						</div>
-						<a href="" class="btn">立即结算</a>
-					</div> -->
-				</div>
-			</div>
 			<div class="login">
-				<a href="">登录</a>
+				<a href="/user/login" class="login_href">登录</a>
 				<span>|</span>
-				<a href="">注册</a>
+				<a href="/user/register">注册</a>
 				<span>|</span>
-				<a href="">历史订单</a>
+				<a href="/order/get_order">历史订单</a>
 			</div>
-			<!-- <div class="userinfo">
-				<a href="" class="link">消息通知</a>
-				<a href="" class="link">我的订单</a>
-				<div class="user">
-					<a href="" class="tit">用户~~</a>
-					<ul>
-					<li><a href="">个人中心</a></li>
-					<li><a href="">评价晒单</a></li>
-					<li><a href="">我的喜欢</a></li>
-					<li><a href="">退出登录</a></li>
-					</ul>
-				</div> -->
-			<!-- </div> -->
 		</div>
 		<!--------------------------最上方右边 end-------------------------------->
 	</div>
 </div>
-
-<!--------------------------登录注册页面------------------------->
-<div class="login_area">
-	<div class="login_box">
-		 <table>
-			 <tr></tr>
-			 <tr></tr>
-			 <tr></tr>
-			 <tr></tr>
-		 </table>
-	</div>
-</div>
-
 
 <!---------------------------导航-------------------------------------->
 <div class="page-nav">
@@ -102,9 +50,9 @@
 <!---------------------------轮播图--------------------------------->
 <div class="idx-banner container">
 	<div id="dowebok" class="fader">
-		<img class="slide" src="/static/imgs/奥利奥蛋糕.jpg">
-		<img class="slide" src="/static/imgs/榴芒蛋糕.jpg">
-		<img class="slide" src="/static/imgs/水果奶油蛋糕.jpg">
+		<img class="slide" src="/static/imgs/四季.jpg">
+		<img class="slide" src="/static/imgs/柚の园.jpg">
+		<img class="slide" src="/static/imgs/提拉米苏.jpg">
 		<div class="fader_controls">
 			<div class="page prev" data-target="prev">&lsaquo;</div>
 			<div class="page next" data-target="next">&rsaquo;</div>
@@ -120,294 +68,57 @@
 
 <!-----------------------内容区--------------------------------->
 <div id="product_display">
-	<ul class="cakeli">
+	<div class="cakeli">
 		<ul>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/Gelato榴莲冰淇淋蛋糕.jpg">
-				</a>
-				<h3>Gelato榴莲冰淇淋蛋糕</h3>
-				<p>榴莲冰淇淋蛋糕</p>
-				<span>198元 / 磅</span>
-			</li>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/Gelato双子星冰淇淋蛋糕.jpg">
-				</a>
-				<h3>Gelato双子星冰淇淋蛋糕</h3>
-				<p>芒果椰子冰淇淋蛋糕</p>
-				<span>198元 / 磅</span>
-			</li>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/wow，小棕熊.jpg">
-				</a>
-				<h3>wow，小棕熊</h3>
-				<p>费列罗冰淇淋口味蛋糕</p>
-				<span>198元 / 磅</span>
-			</li>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/爱丽丝之梦.jpg">
-				</a>
-				<h3>爱丽丝之梦</h3>
-				<p>翻糖巧克力兔兔</p>
-				<span>198元 / 磅</span>
-			</li>		
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/彩虹独角兽.jpg">
-				</a>
-				<h3>彩虹独角兽</h3>
-				<p>芒果奶油口味</p>
-				<span>198元 / 磅</span>
-			</li>	
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/梵星·如梦.jpg">
-				</a>
-				<h3>梵星·如梦</h3>
-				<p>草莓慕斯巧克力口味蛋糕</p>
-				<span>198元 / 磅</span>
-			</li>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/粉红小仙女.jpg">
-				</a>
-				<h3>粉红小仙女</h3>
-				<p>玫瑰奶油慕斯口味</p>
-				<span>198元 / 磅</span>
-			</li>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/果篮.jpg">
-				</a>
-				<h3>果篮</h3>
-				<p>白巧水果奶油，超满足</p>
-				<span>198元 / 磅</span>
-			</li>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/海盐奥利奥Oreo.jpg">
-				</a>
-				<h3>海盐奥利奥Oreo</h3>
-				<p>海盐奥利奥奶油蛋糕口味</p>
-				<span>198元 / 磅</span>
-			</li>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/花季.jpg">
-				</a>
-				<h3>花季</h3>
-				<p>草莓开心果奶油蛋糕</p>
-				<span>198元 / 磅</span>
-			</li>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/开森汪汪.jpg">
-				</a>
-				<h3>开森汪汪</h3>
-				<p>酸奶慕斯蛋糕</p>
-				<span>198元 / 磅</span>
-			</li>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/榴莲忘返.jpg">
-				</a>
-				<h3>榴莲忘返</h3>
-				<p>榴莲控只叹相见恨晚</p>
-				<span>198元 / 磅</span>
-			</li>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/榴芒双拼.jpg">
-				</a>
-				<h3>榴芒双拼</h3>
-				<p>畅销人气经典，原创专利</p>
-				<span>198元 / 磅</span>
-			</li>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/六合寿桃.jpg">
-				</a>
-				<h3>六合寿桃</h3>
-				<p>奶油水果经典口味</p>
-				<span>198元 / 磅</span>
-			</li>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/芒果慕斯.jpg">
-				</a>
-				<h3>芒果慕斯</h3>
-				<p>累计销售超100万磅</p>
-				<span>198元 / 磅</span>
-			</li>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/芒果芝士.jpg">
-				</a>
-				<h3>芒果芝士</h3>
-				<p>芒果与澳大利亚奶油芝士</p>
-				<span>198元 / 磅</span>
-			</li>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/芒莓二重奏.jpg">
-				</a>
-				<h3>芒莓二重奏</h3>
-				<p>蓝莓红丝绒芒果慕斯</p>
-				<span>198元 / 磅</span>
-			</li>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/玫瑰情人.jpg">
-				</a>
-				<h3>玫瑰情人</h3>
-				<p>百利甜奶油，芒果夹心</p>
-				<span>198元 / 磅</span>
-			</li>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/蜜柚思月.jpg">
-				</a>
-				<h3>蜜柚思月</h3>
-				<p>中秋玉兔香柚慕斯新品</p>
-				<span>198元 / 磅</span>
-			</li>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/缪斯.jpg">
-				</a>
-				<h3>缪斯</h3>
-				<p>芒果优格蛋糕口味</p>
-				<span>198元 / 磅</span>
-			</li>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/偏爱.jpg">
-				</a>
-				<h3>偏爱</h3>
-				<p>复古宫廷风-维纳斯</p>
-				<span>198元 / 磅</span>
-			</li>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/四季.jpg">
-				</a>
-				<h3>四季</h3>
-				<p>一次畅享4种人气经典</p>
-				<span>198元 / 磅</span>
-			</li>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/淘气兔兔.jpg">
-				</a>
-				<h3>淘气兔兔</h3>
-				<p>酸奶慕斯蛋糕</p>
-				<span>198元 / 磅</span>
-			</li>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/提拉米苏.jpg">
-				</a>
-				<h3>提拉米苏</h3>
-				<p>咖啡轻乳酪，香滑甘浓</p>
-				<span>198元 / 磅</span>
-			</li>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/小确幸.jpg">
-				</a>
-				<h3>小确幸</h3>
-				<p>意大利起泡酒慕斯口味</p>
-				<span>198元 / 磅</span>
-			</li>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/小时光.jpg">
-				</a>
-				<h3>小时光</h3>
-				<p>草莓奶油蛋糕</p>
-				<span>198元 / 磅</span>
-			</li>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/许愿仙子.jpg">
-				</a>
-				<h3>许愿仙子</h3>
-				<p>草莓开心果奶油蛋糕</p>
-				<span>198元 / 磅</span>
-			</li>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/雪奈蓝莓.jpg">
-				</a>
-				<h3>雪奈蓝莓</h3>
-				<p>蓝莓奶油蛋糕口味</p>
-				<span>198元 / 磅</span>
-			</li>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/杨枝甘露糖水蛋糕.jpg">
-				</a>
-				<h3>杨枝甘露糖水蛋糕</h3>
-				<p>港式糖水蛋糕</p>
-				<span>198元 / 磅</span>
-			</li>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/柚の园.jpg">
-				</a>
-				<h3>柚の园</h3>
-				<p>柚香奶油口味蛋糕</p>
-				<span>198元 / 磅</span>
-			</li>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/宇治微风.jpg">
-				</a>
-				<h3>宇治微风</h3>
-				<p>大师作品；抹茶果茸清新</p>
-				<span>198元 / 磅</span>
-			</li>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/仲夏甜芒Mango.jpg">
-				</a>
-				<h3>仲夏甜芒Mango</h3>
-				<p>芒果奶油蛋糕口味</p>
-				<span>198元 / 磅</span>
-			</li>
-			<li>
-				<a href="">
-					<img src="/static/commidity_pic/初生.jpg">
-				</a>
-				<h3>初生</h3>
-				<p>芒果奶油蛋糕</p>
-				<span>198元 / 磅</span>
-			</li>
-		</ul>
-	</ul>
-</div>
-<script>
-	$('.cakeli ul li img').each(function(index,element){
 
+			{% for item in data %}
+			<li>
+				<a href="">
+					<img src="{{ item.imgurl }}">
+				</a>
+				<h3>{{ item.name }}</h3>
+				<p>{{ item.tips }}</p>
+				<span>{{ item.price }}元 / 磅</span>
+			</li>
+			{% endfor %}
+		</ul>
+	</div>
+</div>
+
+<script>
+	// 给每种蛋糕提供页面跳转
+	$('.cakeli ul li img').each(function(index,element){
 		var com_name = this.src
-		// /static/commidity_pic/Gelato榴莲冰淇淋蛋糕.jpg
-		// /commodity/pay/Gelato榴莲冰淇淋蛋糕
 		var com_addr = '/commodity/pay/' + com_name.split('/')[5].split('.')[0]
 		this.parentNode.href = com_addr
-		console.log(com_addr)
-		// var com_addr = '/commodity/pay/' + com_name.split('/')[-1].split('.')[0]
-		// $('a').attr('href','com_addr')
 	})
-
+	$(function(){
+		var login = $('.login a')[0]
+		var register = $('.login a')[1]
+		$.ajax({
+			url: '/user/check_session',
+			type: 'get',
+			success:function(res){
+				if(res.code == 200){
+					login.text = "退出登录"
+					login.href = "/user/logout"
+					register.text = ""
+					register.herf = ""
+				}else{
+					login.text = "登录"
+					login.herf = "/user/login"
+					register.text = "注册"
+					register.herf = "/user/register"
+				}
+			}
+		})
+	})
 </script>
 
 <!------------------------ 侧边栏----------------------------->
 <ul class="page-slider">
 	<li>
-		<a href="">
+		<a href="/cart/get_html">
 		<img src="/static/imgs/car1.png" class="imgf">
 		<img src="/static/imgs/car2.png" class="imgf imgs">
 		<span>购物车</span>

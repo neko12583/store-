@@ -1,26 +1,25 @@
 from django.db import models
 from user.models import UserAccount
+
+
 # Create your models here.
+class Status(models.Model):
+    #     (1, '待支付'),
+    #     (2, '待发货'),
+    #     (3, '待收货'),
+    #     (4, '已完成'),
+    #     (5, '已取消'),
+    order_status = models.CharField(verbose_name='订单状态', max_length=50)
 
 
 class OrderInfo(models.Model):
     """订单模型类"""
-    PAY_METHOD_CHOICES = (
-        (1, '微信支付'),
-        (2, '支付宝'),
-    )
-    ORDER_STATUS_CHOICES = (
-        (1, '待支付'),
-        (2, '待发货'),
-        (3, '待收货'),
-        (4, '待评价'),
-        (5, '已完成'),
-    )
+    order_num = models.CharField(max_length=128, verbose_name='订单编号')
+    total_price = models.DecimalField(verbose_name='订单总价', max_digits=10, decimal_places=1)
+    order_time = models.CharField(verbose_name='下单时间', max_length=50)
+    commodity_list = models.TextField(verbose_name='商品列表')
+    user_id = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+    status_id = models.ForeignKey(Status, on_delete=models.CASCADE)
 
-    order_num = models.CharField(max_length=128, primary_key=True, verbose_name='订单编号')
-    transit_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='送货费用')
-    total_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='订单总价')
-    pay_method = models.SmallIntegerField(choices=PAY_METHOD_CHOICES, default=1, verbose_name='支付方式')
-    order_status = models.SmallIntegerField(choices=ORDER_STATUS_CHOICES, default=1, verbose_name='订单状态')
-    order_time = models.DateTimeField('下单时间', auto_now_add=True)
-    user = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+
+

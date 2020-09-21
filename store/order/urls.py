@@ -3,9 +3,11 @@ from . import views
 
 urlpatterns = [
     # 生成订单请求
-    path('order/make', views.OrderView.as_views()),
+    path('add_order', views.add_order),
     #  获取历史订单请求
-    path('order/get', views.OrderView.as_views()),
+    path('get_order', views.get_order),
     #  取消订单请求
-    path('order/revoke', views.OrderView.as_views()),
+    path('del_order', views.del_order),
+    # 订单详情
+    # path('order_info', views.order_info),
 ]

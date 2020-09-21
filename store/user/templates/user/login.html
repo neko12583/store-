@@ -4,15 +4,20 @@
     <meta charset="UTF-8">
     <title>账号登录</title>
     <style>
+        body{
+        width:99%;
+        height:100%;
+        background-color: #fcf8ee;
+        }
         #user_id1{
             width: 350px;
             height: 280px;
             border: 1px solid;
-            margin: 0 auto;
-            margin-top: 50px;
             float: left;
             position: absolute;
-            left: 10px;
+            top: 200px;
+            left: 50%;
+            margin-left: -175px; 
             background-color: #fff;
         } 
 
@@ -20,23 +25,27 @@
             width: 350px;
             height: 280px;
             border: 1px solid;
-            margin: 0 auto;
-            margin-top: 50px;
             float: left;
             position: absolute;
-            left: 10px;
+            top: 200px;
+            left: 50%;
+            margin-left: -175px; 
             background-color: #fff;
         }
         .style1{
             z-index: 5;
+            text-align: center;
         }
-
+        .style1 div{
+            margin: 5px auto;
+        }
         .style2{
             z-index: 4;
+            text-align: center;
         }
-
-
-
+        .style2 div{
+            margin: 10px auto;
+        }
 
         h3{
             margin: 0;
@@ -60,10 +69,11 @@
             display: inline-block;
             cursor: pointer;
             margin-top: 5px;
+            color:#ff6700;
         }
         #user_id2{
             text-align: center;
-            position: relative;
+            /* position: relative; */
 
         }
         #user_id3{
@@ -83,7 +93,6 @@
         }
         .user_a2{
             font-size: 16px;
-            margin-left: 143px;
             color: #999999;        
         }
         span{
@@ -97,43 +106,100 @@
             display: inline-block;
             color: red;
         }
+        .user_name_input,.password_input{
+            text-align: center;
+        }
+        .weibo_login img{
+            display: inline;
+            vertical-align: middle;
+        }
+        .style1 div a{
+            text-align: center;
+        }
 
+        .close_box a{
+        margin:1px 1px;
+        width:20px;
+        color: #2440b3;
+        font-size: 24px;
+        float: right;
+        cursor: pointer;
+        }
     </style>
 </head>
 <script src="../../static/js/jquery-1.11.3.js"></script>
 <body>
-    <div id="user_id1" class="style1">
-        <div id="user_id2">
-            <h3 id="user_id3" class="user_h1" onclick=style1()>账号密码登录</h3> | <h3 id="user_id4"  class="user_h1" onclick=style2() >手机注册/登录</h3>
+        <div id="user_id1" class="style1">
+                <div class="close_box"><a style="text-decoration:none;" href="javascript:history.go(-1)">×</a></div>
+            <div id="user_id2">
+                <h3 id="user_id4" class="user_h1" onclick=style2()>手机登录</h3>
+                |
+                <h3 id="user_id3" class="user_h1" onclick=style1()>账号登录</h3>
+            </div>
+
+            <hr>
+
+            <div class="user_name_input">
+                <input id="username" style="width: 150px"  type="text" placeholder="请输入用户名" name="username">
+            </div>
+
+            <div id="show1"></div>
+
+            <div class="password_input">
+                <input id="password" style="width: 150px"  type="text" placeholder="请输入登录密码" name="password">
+            </div>
+
+            <div>
+                <input type="checkbox" name="btn1">记住用户
+            </div>
+
+            <div>
+                <button style="width: 150px;" onclick="login()">登录</button>
+            </div>
+
+            <div class="weibo_login user_a2" style="cursor: pointer;" onclick="weibo()"> 
+                微博登录
+            </div>
+
+            <div>
+                <a style="text-decoration:none" class="user_a2" href="/user/register">注册</a>
+            </div>
         </div>
 
-        <hr>
-        <li><input id="username" style="width: 150px"  type="text" placeholder="请输入用户名" name="username"></li><div id="show1"></div>
-        <li><input id="password" style="width: 150px"  type="text" placeholder="请输入登录密码" name="password"></li>
-        <p style=" font-size: 10px; margin-left: 20px">
-            记住用户<input type="checkbox" name="btn1">
-        </p>
-        <p style="text-align: center"><button style="width: 150px;" onclick="login()">账号登录</button></p>
-        <a style="text-decoration:none" class="user_a2" href="/user/register">注册账号</a><br><br>
-        <span> 第三方账号登录 </span><img class="user_a3" onclick="weibo()" title="新浪微博" src="../../static/picture/wb.png">
-    </div>
 
+        <div id="user_id99" class="style2" >
+                <div class="close_box"><a style="text-decoration:none;" href="javascript:history.go(-1)">×</a></div>
+            <div id="user_id2">
+                <h3 id="user_id3" class="user_h1" onclick=style2()>手机登录</h3>
+                |
+                <h3 id="user_id4" class="user_h1" onclick=style1()>账号登录</h3>
+            </div>
 
-    <div id="user_id99" class="style2" >
-        <div id="user_id2">
-            <h3 id="user_id3" class="user_h1" onclick=style1()>手机验证登录</h3> | <h3 id="user_id4" class="user_h1" onclick=style2()>账号密码登录</h3>
+            <hr>
+
+            <div>
+                <input id="phone" style="width: 235px"  type="text" placeholder="手机号码" name="phone">
+            </div>
+
+            <div id="show1"></div>
+
+            <div>
+                <input id="code" style="width: 150px"  type="text" placeholder="短信验证码" name="code">
+                <input type="button" id="sms" onclick="settime(this);sendSMS()" value="获取验证码">
+            </div>
+
+            <div style="text-align: center">
+                <button style="width: 150px;" onclick="verify()">登录</button>
+            </div>
+            
+            <div class="weibo_login user_a2" style="cursor: pointer;" onclick="weibo()"> 
+                微博登录
+            </div>
+
+            <div>
+                <a style="text-decoration:none" class="user_a2" href="/user/register">注册</a>
+            </div>
         </div>
-
-        <hr>
-        <li><input id="phone" style="width: 150px"  type="text" placeholder="手机号码" name="phone"></li><div id="show1"></div>
-        <li>
-            <input id="code" style="width: 150px"  type="text" placeholder="短信验证码" name="code">
-            <input type="button" id="sms" onclick="settime(this);sendSMS()" value="获取验证码">
-        </li>
-        <p style="text-align: center"><button style="width: 150px;" onclick="verify()">手机登录</button></p>
-        <a style="text-decoration:none" class="user_a2" href="/user/register">注册账号</a><br><br>
-        <span> 第三方账号登录 </span><img class="user_a3" onclick="weibo()" title="新浪微博" src="../../static/picture/wb.png">
-    </div>
 
 
 <script>
@@ -157,7 +223,9 @@
             type:"GET",
             success:function(res){
                 // 把res传给html
-               $('#show1').html(res)
+                $('#show1').html(res)
+                if(res == "登录成功")
+                    window.location.href = 'http://127.0.0.1:8000'
             }
         })
     }
@@ -166,7 +234,7 @@
     function settime(obj) {
         if (countdown == 0) {
             obj.removeAttribute("disabled");
-            obj.value="免费获取验证码";
+            obj.value="获取验证码";
             countdown = 60;
             return;
         } else {
@@ -217,7 +285,7 @@
                     alert('登录成功')
                     setTimeout("changeState()",3000 );
                     function changeState(){
-                        window.location.href = 'http://127.0.0.1:8000/user/personal_center'
+                        window.location.href = 'http://127.0.0.1:8000'
                     }
                 }else{
                     alert(res.error);

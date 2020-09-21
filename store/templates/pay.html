@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>商品详情</title>
-	<link rel="stylesheet" type="text/css" href="../../static/css/reset.css">
-	<link rel="stylesheet" type="text/css" href="../../static/css/style.css">
-	<link rel="stylesheet" type="text/css" href="../../static/css/index.css">
-    <script src="../../static/js/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/static/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/index.css">
+    <script src="/static/js/jquery.min.js"></script>
 </head>
 <body>
 <!--------------------------顶格-------------------------------->
@@ -21,48 +21,13 @@
         <!-----------------------最上方左边 end--------------------------------->
         <!----------------------最上方右边------------------------------------>
         <div class="top-gt">
-            <div class="car-box">
-                <a href="" class="tit">购物车</a>
-                <div class="pop">
-                    <p class="no-good">购物车还没有商品，赶紧选购吧！</p> 
-                    <!-- <ul class="list">
-                        <li>
-                            <a href="" class="pic"><img src="img/mi10.png"></a>
-                            <div class="txt">草莓蛋糕</div>
-                            <div class="num">
-                                <h4>500元 * 1</h4>
-                            </div>
-                        </li>
-                    </ul> -->
-                    <!-- <div class="total">
-                        <div class="price">
-                            <p>共1件商品</p>
-                            <h3>500元</h3>
-                        </div>
-                        <a href="" class="btn">立即结算</a>
-                    </div> -->
-                </div>
-            </div>
             <div class="login">
-                <a href="">登录</a>
+                <a href="/user/login">登录</a>
                 <span>|</span>
-                <a href="">注册</a>
+                <a href="/user/register">注册</a>
                 <span>|</span>
-                <a href="">历史订单</a>
+                <a href="/order/get_order">历史订单</a>
             </div>
-            <!-- <div class="userinfo">
-                <a href="" class="link">消息通知</a>
-                <a href="" class="link">我的订单</a>
-                <div class="user">
-                    <a href="" class="tit">用户~~</a>
-                    <ul>
-                    <li><a href="">个人中心</a></li>
-                    <li><a href="">评价晒单</a></li>
-                    <li><a href="">我的喜欢</a></li>
-                    <li><a href="">退出登录</a></li>
-                    </ul>
-                </div> -->
-            <!-- </div> -->
         </div>
         <!--------------------------最上方右边 end-------------------------------->
     </div>
@@ -83,9 +48,9 @@
 
 <!----------------------内容区---------------------------------->
 <div class="path">
-    <a href="">首页</a>
+    <a href="/">首页</a>
     <span>&gt;</span>
-    <a href="">wow，小棕熊</a>
+    <a href="">{{ result.commodity_name }}</a>
 </div>
 <div id="content">
     <!-- 左边内容 -->
@@ -97,7 +62,7 @@
         <h3>{{ result.commodity_name }}</h3>
         <p>{{ result.commodity_info }}</p>
         <ul>选择磅数：
-            <li>1 磅</li>
+            <li class="oncli">1 磅</li>
             <li>2 磅</li>
             <li>3 磅</li>
         </ul>
@@ -114,9 +79,9 @@
                 +
             </div>
         </div>
-        <div class="pay_price">价格：
+        <div class="pay_price" value="{{ result.commodity_price }}">价格：
             <div>
-                磅数价格*数量
+                {{ result.commodity_price }} 元
             </div>
         </div>
         <div class="buy_btn">
@@ -128,7 +93,7 @@
 <!----------------------侧边栏---------------------------------->
 <ul class="page-slider">
 	<li>
-		<a href="">
+		<a href="/cart/get_html">
 		<img src="../../static/imgs/car1.png" class="imgf">
 		<img src="../../static/imgs/car2.png" class="imgf imgs">
 		<span>购物车</span>
@@ -165,18 +130,118 @@
             $(this).removeClass()
         });
         $(this).addClass("oncli");
+        var pound_obj = $('.rt_content ul li')
+        if(pound_obj[0].className == "oncli"){
+            pound = 1
+        }
+        if(pound_obj[1].className == "oncli"){
+            pound = 2
+        }
+        if(pound_obj[2].className == "oncli"){
+            pound = 3
+        }
+        var count = $('.buy_num_box').val()
+        var price = 198*pound*count
+        var show_price_obj = $('.pay_price div')
+        show_price_obj.text(price + " 元") 
+        var price_val = $('.pay_price').attr('value', price)
     });
     // 蛋糕数量选择
     $("#content .rt_content .cake_num .sub").click(function(){
         var num = $("#content .rt_content .cake_num .buy_num .buy_num_box").val();
         if(num!=1){
             $("#content .rt_content .cake_num .buy_num .buy_num_box").val(num-1);
+            var pound_obj = $('.rt_content ul li')
+            if(pound_obj[0].className == "oncli"){
+                pound = 1
+            }
+            if(pound_obj[1].className == "oncli"){
+                pound = 2
+            }
+            if(pound_obj[2].className == "oncli"){
+                pound = 3
+            }
+            var count = $('.buy_num_box').val()
+            var price = 198*pound*count
+            var show_price_obj = $('.pay_price div')
+            show_price_obj.text(price + " 元") 
+            var price_val = $('.pay_price').attr('value', price)
         }
     });
     $("#content .rt_content .cake_num .add").click(function(){
         var num = $("#content .rt_content .cake_num .buy_num .buy_num_box").val();
         $("#content .rt_content .cake_num .buy_num .buy_num_box").val(parseInt(num)+1);
+        var pound_obj = $('.rt_content ul li')
+        if(pound_obj[0].className == "oncli"){
+            pound = 1
+        }
+        if(pound_obj[1].className == "oncli"){
+            pound = 2
+        }
+        if(pound_obj[2].className == "oncli"){
+            pound = 3
+        }
+        var count = $('.buy_num_box').val()
+        var price = 198*pound*count
+        var show_price_obj = $('.pay_price div')
+        show_price_obj.text(price + " 元") 
+        var price_val = $('.pay_price').attr('value', price)
     });
+    // 登录验证
+    $(function(){
+		var login = $('.login a')[0]
+		var register = $('.login a')[1]
+		$.ajax({
+			url: '/user/check_session',
+			type: 'get',
+			success:function(res){
+				if(res.code == 200){
+					login.text = "退出登录"
+					login.href = "/user/logout"
+					register.text = ""
+					register.herf = ""
+				}else{
+					login.text = "登录"
+					login.herf = "/user/login"
+					register.text = "注册"
+					register.herf = "/user/register"
+				}
+			}
+		})
+	})
+    // 加入购物车
+    $('.buy_btn p').click(function(){
+        var c_name = $('.rt_content h3')[0].innerText
+        var pound_obj = $('.rt_content ul li')
+        if(pound_obj[0].className == "oncli"){
+            pound = 1
+        }
+        if(pound_obj[1].className == "oncli"){
+            pound = 2
+        }
+        if(pound_obj[2].className == "oncli"){
+            pound = 3
+        }
+        var count = $('.buy_num_box').val()
+        var price = $('.pay_price').attr("value")
+        var post_data = {"commodity_name":c_name,"pound":pound,"count":count,"price":price}
+        $.ajax({
+            url:'/cart/add_cart',
+            type:'post',
+            data:JSON.stringify(post_data),
+            contentType:'application/json',
+            dataType:'json',
+            success:function(res){
+                if(res.code == 200){
+                    alert('添加成功')
+                }else{
+                    alert('您未登录')
+                }
+            }
+        })
+    })
+
+    
 </script>
 </body>
 </html>

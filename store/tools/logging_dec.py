@@ -3,8 +3,6 @@ from django.conf import settings
 from django.shortcuts import render
 
 
-
-
 # 装饰器
 def logging_check(func):
     def wrap(request, *args, **kwargs):
@@ -16,23 +14,7 @@ def logging_check(func):
             else:
                 request.session['username'] = username
                 request.session['uid'] = uid
+        a = request.session
         return func(request, *args, **kwargs)
 
     return wrap
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

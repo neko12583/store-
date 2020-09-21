@@ -121,7 +121,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = os.path.join(BASE_DIR, "static"),
+STATICFILES_DIRS = os.path.join(BASE_DIR, "static"),os.path.join(BASE_DIR, "user/static")
 # 设置缓存　放到redis库
 CACHES = {
     "default": {
@@ -142,9 +142,8 @@ SMS_TEMPLATE_ID = '1'
 # 设置session在cookies中过期时间20分钟
 SESSION_COOKIE_AGE = 60 * 20
 
-
 # 微博登录相关
 WEIBO_CLIENT_ID = '2536356629'
 WEIBO_CLIENT_SECRET = '7f93728ee872e49a5ed2018079d86b57'
-WEIBO_REDIRECT_URI = 'http://127.0.0.1:8000/user/weibo/users'     # 这个地址还得在微博后台配置上,有可能以后想更改网址却发现还是跳到这个网址
+WEIBO_REDIRECT_URI = 'http://127.0.0.1:8000/user/weibo/users'  # 这个地址还得在微博后台配置上,有可能以后想更改网址却发现还是跳到这个网址
 # 让用户能跳转到微博授权页

@@ -12,6 +12,9 @@ urlpatterns = [
     # 127.0.0.1:8000/user/login_ajax
     path('login_ajax', views.login_ajax),
 
+    # 首页验证登录状态
+    path('check_session', views.check_session),
+
     # 127.0.0.1:8000/user/logout
     path('logout', views.logout_view),
 
